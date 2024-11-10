@@ -21,7 +21,10 @@ export default function NavBar() {
             setSelectedCategories([...selectedCategories, value]);
         }
         setIsDropdownOpen(!isDropdownOpen);
+    };
 
+    const removeCategory = (value: string) => {
+        setSelectedCategories(selectedCategories.filter(category => category !== value));
     };
 
     return (
@@ -41,6 +44,19 @@ export default function NavBar() {
                             ))}
                         </ul>
                     )}
+                </div>
+                <div className={styles.selectedCategories}>
+                    {selectedCategories.map(category => (
+                        <div key={category} className={styles.categoryTag}>
+                            {category}
+                            <button 
+                                className={styles.removeButton} 
+                                onClick={() => removeCategory(category)}
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    ))}
                 </div>
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search recipes..." className={styles.searchInput} />
