@@ -25,9 +25,9 @@ export const addRecipe = async (recipe: { recipe_name: string; category: string;
 };
 
 export const updateRecipe = async (id: string, recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
-  await my_http.patch(`/?id=${id}`, recipe);
+  await my_http.patch(`/?_id=${id}`, recipe);
 };
 
 export const deleteRecipe = async (id: string) => {
-  await my_http.delete(`/recipes/?id=${id}`);
+  await my_http.delete(`/recipes/?_id=${id}`);
 };

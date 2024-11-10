@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 export async function DELETE(request: Request) {
     const client = await connectDatabase();
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id"); 
+    const id = searchParams.get("_id"); 
 
     if (!id) {
         return NextResponse.json({ message: "ID parameter is required" });
@@ -36,7 +36,7 @@ export async function DELETE(request: Request) {
     try {
         const db = client.db(databaseName);
         const result = await db
-            .collection("recipe")
+            .collection("recipes")
             .deleteOne({ _id: new ObjectId(id) });
 
         if (result.deletedCount === 0) {
@@ -54,7 +54,7 @@ export async function DELETE(request: Request) {
 export async function PATCH(req: Request) {
     const client = await connectDatabase();
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = searchParams.get("_id");
 
     if (!id) {
         return NextResponse.json({ message: "ID parameter is required" }, { status: 400 });
