@@ -1,42 +1,39 @@
 .navbar {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; 
     align-items: center;
     background-color: #4CAF50;
     padding: 10px 20px;
     color: white;
-    flex-direction: column;
-
-
-
 }
-
 
 .title {
     margin: 0;
 }
 
+.controlsContainer {
+    display: flex; 
+    justify-content: space-between;
+    width: 100%; 
+    margin-top: 10px; 
+}
 
 .dropdown {
     position: relative;
     display: inline-block;
+    margin-right: 10px; 
+    color: black;
+
 }
-
-
-.dropdownButton {
-    padding: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
 
 .select {
-    position: absolute;
+    padding: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
     background-color: white;
+    cursor: pointer; 
+    width: 200px; 
 }
-
 
 .searchContainer {
 
@@ -51,6 +48,9 @@
 .searchInput {
     padding: 5px;
     margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+
 }
 
 
@@ -60,4 +60,25 @@
     border: none;
     padding: 10px 15px;
     cursor: pointer;
+    border-radius: 4px
+}
+
+.dropdownMenu {
+    position: absolute;
+    background-color: white; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    list-style-type: none; 
+    margin: 0;
+    padding: 0; 
+    z-index: 1; 
+}
+
+.dropdownMenu li {
+    padding: 8px 10px; 
+    cursor: pointer;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0; 
 }
