@@ -1,53 +1,44 @@
-
-
-
-
-
-// GridRecipes.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
 import { getAllRecipes } from "@/services/recipesService";
 import RecipeDetails from "./RecipeDetails";
-
+import { useCategoriesStore } from "@/stores/categoriesStore";
 
 type Recipe = {
   _id: string;
   url_image: string;
   recipe_name: string;
-  category: string;
+  category: { category_id: string };
   instructions: string;
   ingredients: string[];
 };
-
-
-
 
 export default function GridRecipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Zustand categories store
+  const { categories, fetchCategories } = useCategoriesStore();
+
   useEffect(() => {
+    fetchCategories();
     const loadRecipes = async () => {
       try {
         const recipesData = await getAllRecipes();
-        console.log("page: ",recipesData);
         setRecipes(recipesData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'שגיאה לא ידועה');
+        setError(err instanceof Error ? err.message : "שגיאה לא ידועה");
       } finally {
         setLoading(false);
       }
     };
     loadRecipes();
-  }, []);
-
-  
-  
+  }, [fetchCategories]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -58,6 +49,13 @@ export default function GridRecipes() {
     setIsSidebarOpen(false);
   };
 
+  // Find category name by ID
+  const getCategoryNameById = (categoryId: string) => {
+    console.log("category id: ", categoryId);
+    const category = categories.find((cat) => cat.category_id === categoryId);
+    return category ? category.category_name : "קטגוריה לא ידועה";
+  };
+
   return (
     <div className={styles.grid}>
       {recipes.map((recipe) => (
@@ -65,9 +63,9 @@ export default function GridRecipes() {
           key={recipe._id}
           url_image={recipe.url_image}
           recipe_name={recipe.recipe_name}
-          category={recipe.category}
+          category={recipe.category ? getCategoryNameById(recipe.category.category_id) : "קטגוריה לא ידועה"} // בדיקה אם category קיים
           instructions={recipe.instructions}
-          onReadMore={() => handleReadMoreClick(recipe)} // Passing the function to handle Read More
+          onReadMore={() => handleReadMoreClick(recipe)}
         />
       ))}
 
@@ -76,10 +74,12 @@ export default function GridRecipes() {
         <RecipeDetails
           isOpen={isSidebarOpen}
           onClose={handleCloseSidebar}
-          recipe={selectedRecipe}
+          recipe={{
+            ...selectedRecipe,
+            categoryName: getCategoryNameById(selectedRecipe.category.category_id),
+          }} // Pass category name to RecipeDetails
         />
       )}
     </div>
   );
-};
-
+}

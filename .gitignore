@@ -2,8 +2,6 @@
 next.config.mjs
 
 
-next.config.mjs
-
 # dependencies
 /node_modules
 /.pnp
