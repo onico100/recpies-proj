@@ -1,11 +1,19 @@
+
+
+
+
+
+// GridRecipes.tsx
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
+import { getAllRecipes } from "@/services/recipesService";
 import RecipeDetails from "./RecipeDetails";
 
+
 type Recipe = {
-  id: string;
+  _id: string;
   url_image: string;
   recipe_name: string;
   category: string;
@@ -13,13 +21,33 @@ type Recipe = {
   ingredients: string[];
 };
 
-type GridRecipesProps = {
-  recipes: Recipe[];
-};
 
-const GridRecipes: React.FC<GridRecipesProps> = ({ recipes }) => {
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+
+
+export default function GridRecipes() {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const loadRecipes = async () => {
+      try {
+        const recipesData = await getAllRecipes();
+        console.log("page: ",recipesData);
+        setRecipes(recipesData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'שגיאה לא ידועה');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadRecipes();
+  }, []);
+
+  
+  
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -34,7 +62,7 @@ const GridRecipes: React.FC<GridRecipesProps> = ({ recipes }) => {
     <div className={styles.grid}>
       {recipes.map((recipe) => (
         <RecipeCard
-          key={recipe.id}
+          key={recipe._id}
           url_image={recipe.url_image}
           recipe_name={recipe.recipe_name}
           category={recipe.category}
@@ -55,4 +83,3 @@ const GridRecipes: React.FC<GridRecipesProps> = ({ recipes }) => {
   );
 };
 
-export default GridRecipes;
