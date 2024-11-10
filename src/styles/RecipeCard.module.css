@@ -23,7 +23,9 @@
 
 .name {
   font-size: 1.2em;
-  margin: 8px 0;
+  /* margin: 8px 0; */
+  margin: 0;
+
 }
 
 .category {
@@ -49,4 +51,20 @@
 
 .readMoreButton:hover {
   background-color: #45a049;
+}
+
+
+
+.header {
+  display: flex; /* Flex container for the header */
+  justify-content: space-between; /* Space between name and star */
+  align-items: center; /* Center align vertically */
+  width: 100%; /* Ensure it takes full width */
+}
+
+.starIcon {
+  margin-left: 8px; 
+  cursor: pointer; 
+  color: #ffa500; 
+  transition: color 0.2s; 
 }

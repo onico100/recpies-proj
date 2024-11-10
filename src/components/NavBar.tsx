@@ -4,6 +4,10 @@ import Link from 'next/link';
 import styles from '@/styles/NavBar.module.css';
 import { useCategoriesStore } from '@/stores/categoriesStore';
 
+type Category = {
+    _id: string;
+    category_name: string;
+}
 export default function NavBar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -12,6 +16,7 @@ export default function NavBar() {
     useEffect(() => {
         fetchCategories();
     }, [fetchCategories]);
+
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -66,7 +71,7 @@ export default function NavBar() {
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search recipes..." className={styles.searchInput} />
                 </div>
-                <Link href="/addRecipe"> 
+                <Link href="/addRecipe">
                     <button className={styles.addRecipeButton}>
                         Add Recipe
                     </button>

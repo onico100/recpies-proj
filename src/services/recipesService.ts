@@ -18,7 +18,7 @@ export const fetchRecipes = async () => {
 };
 
 
-export const addRecipe = async (recipe: { recipe_name: string; category: ObjectId; instructions: string;url_image:string;ingredients:Array<string> }) => {
+export const addRecipe = async (recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
   const response = await my_http.post('/recipes', recipe);
   return response.data;
 };
