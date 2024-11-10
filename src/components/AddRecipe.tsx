@@ -6,13 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import styles from "@/styles/AddRecipe.module.css";
 
-const categories = ["Appetizer", "Main Course", "Dessert"];
+const categories = ["Choose", "Appetizer", "Main Course", "Dessert"];
 
 const recipeSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  recipe_name: z
+    .string()
+    .regex(/^[a-zA-Z\s]+$/, "Name must contain only letters")
+    .min(1, "Name is required"),
   category: z.string().min(1, "Category is required"),
   instructions: z.string().min(1, "Instructions are required"),
-  imageUrl: z.string().url("Invalid URL format"),
+  url_image: z.string().url("Invalid URL format"),
   ingredients: z
     .array(z.string())
     .min(1, "At least one ingredient is required"),
@@ -20,7 +23,7 @@ const recipeSchema = z.object({
 
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
-const RecipeForm = () => {
+const AddRecipe = () => {
   const {
     register,
     handleSubmit,
@@ -31,15 +34,13 @@ const RecipeForm = () => {
     resolver: zodResolver(recipeSchema),
   });
 
-  const [formData, setFormData] = useState<RecipeFormValues | null>(null);
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
-  const [categoryList, setCategoryList] = useState(categories);
-  const [newCategory, setNewCategory] = useState("");
 
   const onSubmit = (data: RecipeFormValues) => {
-    setFormData(data);
+    //TODO: send data to database
     console.log(data);
+
     reset();
     setIngredientList([]);
   };
@@ -52,13 +53,6 @@ const RecipeForm = () => {
     }
   };
 
-  const handleAddCategory = () => {
-    if (newCategory) {
-      setCategoryList((prev) => [...prev, newCategory]);
-      setNewCategory("");
-    }
-  };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -66,16 +60,18 @@ const RecipeForm = () => {
     >
       <div className={styles["form-group"]}>
         <label>Name</label>
-        <input type="text" {...register("name")} />
-        {errors.name && (
-          <p className={styles["error-message"]}>{errors.name.message}</p>
+        <input type="text" {...register("recipe_name")} />
+        {errors.recipe_name && (
+          <p className={styles["error-message"]}>
+            {errors.recipe_name.message}
+          </p>
         )}
       </div>
 
       <div className={styles["form-group"]}>
         <label>Category</label>
         <select {...register("category")}>
-          {categoryList.map((cat, index) => (
+          {categories.map((cat, index) => (
             <option key={index} value={cat}>
               {cat}
             </option>
@@ -84,16 +80,6 @@ const RecipeForm = () => {
         {errors.category && (
           <p className={styles["error-message"]}>{errors.category.message}</p>
         )}
-
-        <input
-          type="text"
-          placeholder="Add new category"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-        />
-        <button type="button" onClick={handleAddCategory}>
-          Add Category
-        </button>
       </div>
 
       <div className={styles["form-group"]}>
@@ -108,9 +94,9 @@ const RecipeForm = () => {
 
       <div className={styles["form-group"]}>
         <label>Image URL</label>
-        <input type="text" {...register("imageUrl")} />
-        {errors.imageUrl && (
-          <p className={styles["error-message"]}>{errors.imageUrl.message}</p>
+        <input type="text" {...register("url_image")} />
+        {errors.url_image && (
+          <p className={styles["error-message"]}>{errors.url_image.message}</p>
         )}
       </div>
 
@@ -138,29 +124,8 @@ const RecipeForm = () => {
       </div>
 
       <button type="submit">Submit</button>
-
-      {formData && (
-        <div className={styles["recipe-data"]}>
-          <h2>Recipe Submitted</h2>
-          <p>
-            <strong>Name:</strong> {formData.name}
-          </p>
-          <p>
-            <strong>Category:</strong> {formData.category}
-          </p>
-          <p>
-            <strong>Instructions:</strong> {formData.instructions}
-          </p>
-          <p>
-            <strong>Image URL:</strong> {formData.imageUrl}
-          </p>
-          <p>
-            <strong>Ingredients:</strong> {formData.ingredients.join(", ")}
-          </p>
-        </div>
-      )}
     </form>
   );
 };
 
-export default RecipeForm;
+export default AddRecipe;
