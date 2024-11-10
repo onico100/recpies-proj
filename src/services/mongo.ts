@@ -1,4 +1,3 @@
-//TODO: change database name.
 const databaseName = "recpies-app";
 
 const { MongoClient, ObjectId } = require("mongodb");

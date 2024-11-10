@@ -1,7 +1,7 @@
 import axios from "axios";
 import my_http from "@/services/http";
 
-  export async function getAllCars() {
+  export async function getAllRecipes() {
       try {
           const response = await my_http.get("/recipes");
           console.log(response.data);
@@ -13,21 +13,21 @@ import my_http from "@/services/http";
   }
 
 
-export const fetchCars = async () => {
+export const fetchRecipes = async () => {
   const response = await my_http.get('/recipes');
   return response.data;
 };
 
 
-export const addRecipe = async (car: { model_name: string; plate_number: string; color: string }) => {
-  const response = await my_http.post('/recipes', car);
+export const addRecipe = async (recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
+  const response = await my_http.post('/recipes', recipe);
   return response.data;
 };
 
-export const updateRecipe = async (id: string, car: { model_name: string; plate_number: string; color: string }) => {
-  await my_http.patch(`/?id=${id}`, car);
+export const updateRecipe = async (id: string, recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
+  await my_http.patch(`/?id=${id}`, recipe);
 };
 
 export const deleteRecipe = async (id: string) => {
-  await my_http.delete(`/cars/?id=${id}`);
+  await my_http.delete(`/recipes/?id=${id}`);
 };
