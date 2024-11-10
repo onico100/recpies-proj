@@ -5,7 +5,7 @@ import styles from '@/styles/NavBar.module.css'
 import { getAllCategories } from '@/services/categoriesService';
 
 
-type Category={
+type Category = {
     _id: string;
     category_name: string;
 }
@@ -17,11 +17,11 @@ export default function NavBar() {
     useEffect(() => {
         const loadCategories = async () => {
             const categoriesData = await getAllCategories();
-            console.log("categories: ",categoriesData);
+            console.log("categories: ", categoriesData);
             setCategories(categoriesData);
         };
         loadCategories();
-      }, []);
+    }, []);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -38,10 +38,7 @@ export default function NavBar() {
 
     const removeCategory = (value: string) => {
         setSelectedCategories(selectedCategories.filter(category => category !== value));
-
         setIsDropdownOpen(false);
-
-
     };
 
     return (
@@ -79,7 +76,7 @@ export default function NavBar() {
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search recipes..." className={styles.searchInput} />
                 </div>
-                <Link href="/addRecipe"> 
+                <Link href="/addRecipe">
                     <button className={styles.addRecipeButton}>
                         Add Recipe
                     </button>
