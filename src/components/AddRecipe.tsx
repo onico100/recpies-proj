@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 import styles from "@/styles/AddRecipe.module.css";
+import { addRecipe } from "@/services/recipesService";
+import { ObjectId } from "mongodb";
 
 const categories = ["Choose", "Appetizer", "Main Course", "Dessert"];
 
@@ -41,8 +43,11 @@ const AddRecipe = () => {
   const [ingredientList, setIngredientList] = useState<string[]>([]);
 
   const onSubmit = (data: RecipeFormValues) => {
-    //TODO: send data to database
-    console.log(data);
+     let recipe= { recipe_name: data.recipe_name, category: data.category, instructions: data.instructions, url_image:data.url_image, ingredients:data.ingredients }
+    
+     addRecipe(recipe)
+
+    console.log(data,300);
 
     reset();
     setIngredientList([]);
