@@ -12,13 +12,13 @@ export async function insertDocument(
   collection: string,
   document: object
 ) {
-  const db = client.db("db01");
+  const db = client.db("mini-proj");
   const result = await db.collection(collection).insertOne(document);
   return result;
 }
 
 export async function getAllDocuments(client: any, collection: string) {
-  const db = client.db("db01");
+  const db = client.db("mini-proj");
   const documents = await db.collection(collection).find().toArray();
   return documents;
 }
