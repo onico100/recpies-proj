@@ -2,6 +2,7 @@
 import NavBar from "@/components/NavBar";
 import GridRecipes from "@/components/GridRecipes";
 
+
 export default function Home() {
 
 
