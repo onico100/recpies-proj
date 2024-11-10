@@ -1,9 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/NavBar.module.css'
-import { getAllCategories } from '@/services/categoriesService';
-
+import styles from '@/styles/NavBar.module.css';
+import { useCategoriesStore } from '@/stores/categoriesStore';
 
 type Category = {
     _id: string;
@@ -12,16 +11,12 @@ type Category = {
 export default function NavBar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const { categories, fetchCategories } = useCategoriesStore();
 
     useEffect(() => {
-        const loadCategories = async () => {
-            const categoriesData = await getAllCategories();
-            console.log("categories: ", categoriesData);
-            setCategories(categoriesData);
-        };
-        loadCategories();
-    }, []);
+        fetchCategories();
+    }, [fetchCategories]);
+
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -66,7 +61,7 @@ export default function NavBar() {
                     {isDropdownOpen && (
                         <ul className={styles.dropdownMenu}>
                             {categories.map(category => (
-                                <li key={category._id} onClick={() => handleCategoryChange(category._id)}>
+                                <li key={category.category_id} onClick={() => handleCategoryChange(category.category_name)}>
                                     {category.category_name}
                                 </li>
                             ))}
@@ -84,8 +79,4 @@ export default function NavBar() {
             </div>
         </div>
     );
-
 }
-
-
-
