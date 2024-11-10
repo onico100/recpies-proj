@@ -1,5 +1,5 @@
-//TODO: change database name.
-const databaseName = "recpies-app";
+
+export const databaseName = "recipes-app";
 
 const { MongoClient, ObjectId } = require("mongodb");
 
