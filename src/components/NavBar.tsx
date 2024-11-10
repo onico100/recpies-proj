@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react';
+import Link from 'next/link';
+
 import styles from '@/styles/NavBar.module.css'
 
 export default function NavBar() {
@@ -66,7 +68,11 @@ export default function NavBar() {
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search recipes..." className={styles.searchInput} />
                 </div>
-                <button className={styles.addRecipeButton}>Add Recipe</button>
+                <Link href="/addRecipe"> 
+                    <button className={styles.addRecipeButton}>
+                        Add Recipe
+                    </button>
+                </Link>
             </div>
         </div>
     );

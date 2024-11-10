@@ -4,6 +4,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useRouter } from "next/navigation"; 
 import styles from "@/styles/AddRecipe.module.css";
 
 const categories = ["Choose", "Appetizer", "Main Course", "Dessert"];
@@ -24,6 +26,7 @@ const recipeSchema = z.object({
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
 const AddRecipe = () => {
+  const router = useRouter(); 
   const {
     register,
     handleSubmit,
@@ -43,6 +46,7 @@ const AddRecipe = () => {
 
     reset();
     setIngredientList([]);
+    router.push("/");
   };
 
   const handleAddIngredient = () => {
@@ -54,6 +58,10 @@ const AddRecipe = () => {
   };
 
   return (
+    <div>
+    <Link href="/" className={styles.backLink}>
+      Back
+    </Link>
     <form
       onSubmit={handleSubmit(onSubmit)}
       className={styles["form-container"]}
@@ -125,6 +133,7 @@ const AddRecipe = () => {
 
       <button type="submit">Submit</button>
     </form>
+    </div>
   );
 };
 
