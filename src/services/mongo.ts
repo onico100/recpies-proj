@@ -1,4 +1,5 @@
 //TODO: change database name.
+const databaseName = "recpies-app";
 
 const { MongoClient, ObjectId } = require("mongodb");
 
@@ -12,13 +13,13 @@ export async function insertDocument(
   collection: string,
   document: object
 ) {
-  const db = client.db("db01");
+  const db = client.db(databaseName);
   const result = await db.collection(collection).insertOne(document);
   return result;
 }
 
 export async function getAllDocuments(client: any, collection: string) {
-  const db = client.db("db01");
+  const db = client.db(databaseName);
   const documents = await db.collection(collection).find().toArray();
   return documents;
 }
