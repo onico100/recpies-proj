@@ -6,13 +6,20 @@ import GridRecipes from "@/components/GridRecipes";
 
 const recipes = [
   {
-    id: "1",
-    url_image: "https://via.placeholder.com/150",
-    recipe_name: "Spaghetti Carbonara",
-    category: "Main Course",
-    instructions: "Boil pasta, fry pancetta, and mix with eggs and cheese.",
+    id: "2",
+    url_image: "https://example.com/spaghetti.jpg",
+    recipe_name: "Spaghetti Bolognese",
+    category: "Italian",
+    instructions: "Cook pasta and mix with sauce.",
+    ingredients: [
+      "Spaghetti",
+      "Ground Beef",
+      "Tomato Sauce",
+      "Garlic",
+      "Onion",
+      "Olive Oil",
+    ],
   },
-  // Add more recipes
 ];
 
 export default function Home() {

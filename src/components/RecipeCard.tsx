@@ -7,6 +7,7 @@ type RecipeCardProps = {
   recipe_name: string;
   category: string;
   instructions: string;
+  onReadMore: () => void;
 };
 
 const RecipeCard: React.FC<RecipeCardProps> = ({
@@ -14,15 +15,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   recipe_name,
   category,
   instructions,
+  onReadMore,
 }) => {
   const truncatedInstructions =
     instructions.length > 100
       ? `${instructions.substring(0, 100)}...`
       : instructions;
 
-  const onReadMore = () => {
-    console.log("to do");
-  };
   return (
     <div className={styles.card}>
       <img src={url_image} alt={recipe_name} className={styles.image} />
