@@ -23,7 +23,7 @@ export const addRecipe = async (recipe: { recipe_name: string; category: ObjectI
   return response.data;
 };
 
-export const updateRecipe = async (id: string, recipe: { recipe_name: string; category: ObjectId; instructions: string;url_image:string;ingredients:Array<string> }) => {
+export const updateRecipe = async (id: string, recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
   await my_http.patch(`/?_id=${id}`, recipe);
 };
 
