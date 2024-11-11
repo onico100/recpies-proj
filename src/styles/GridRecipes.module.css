@@ -5,28 +5,26 @@
   padding: 20px;
 }
 
-
 .buttonContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 20px;
 }
 
 .button {
-  background-color: #f2f2f2;
-  border: none;
+  background-color: transparent; 
   color: #333;
+  border: none;
   padding: 8px 16px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 14px;
   margin: 0 8px;
   cursor: pointer;
-  border-radius: 4px;
+  position: relative; 
 }
 
 .activeButton {
-  background-color: #333;
-  color: #fff;
+  color: black;
+  border-bottom: 2px solid black; 
 }
