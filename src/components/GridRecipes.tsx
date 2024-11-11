@@ -35,7 +35,7 @@ export default function GridRecipes() {
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-    console.log(recipe.categoryId);
+
     setIsSidebarOpen(true);
   };
 
@@ -59,7 +59,6 @@ export default function GridRecipes() {
         return "Loading categorys..."
       }
       const category = categories.find((cat) => cat._id === category_id);
-      console.log("category found: ", category);
 
       return category ? category.category_name : "Unknown category";
 
