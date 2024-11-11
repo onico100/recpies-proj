@@ -1,3 +1,4 @@
+//..components/GridRecipes.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
@@ -6,6 +7,7 @@ import RecipeDetails from "./RecipeDetails";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
+import { deleteRecipe } from "@/services/recipesService";
 
 
 export default function GridRecipes() {
@@ -44,9 +46,6 @@ export default function GridRecipes() {
 
   const getCategoryNameById = (category_id:string) => {
     try{
-      if (loading) {
-        return "Loading categorys..."
-      }
       const category = categories.find((cat) => cat._id === category_id);
       console.log("category found: ", category);
 
@@ -58,6 +57,13 @@ export default function GridRecipes() {
   }
   };
 
+  const handleDeleteClick = async (recipeId: string) => {
+    if (window.confirm("Are you sure you want to delete this recipe?")) {
+      await deleteRecipe(recipeId); // קריאה לפונקציית המחיקה
+      fetchRecipes(); // רענון רשימת המתכונים לאחר המחיקה
+    }
+  };
+  
   return (
     <div className={styles.grid}>
       {recipes?.map((recipe) => (
@@ -70,6 +76,7 @@ export default function GridRecipes() {
           isFavorite={isRecipeFavorite(recipe._id)} 
           onToggleFavorite={() => handleToggleFavorite(recipe._id)} 
           onReadMore={() => handleReadMoreClick(recipe)}
+          onDelete={() => handleDeleteClick(recipe._id)}
         />
       ))}
 

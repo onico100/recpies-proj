@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import styles from "@/styles/RecipeCard.module.css";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
-
+import { FaTrash } from 'react-icons/fa'; 
 
 type RecipeCardProps = {
   url_image: string;
@@ -12,6 +12,7 @@ type RecipeCardProps = {
   isFavorite: boolean; 
   onToggleFavorite: () => void; 
   onReadMore: () => void;
+  onDelete: () => void; 
 };
 
 const RecipeCard: React.FC<RecipeCardProps> = ({
@@ -22,6 +23,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   isFavorite,
   onToggleFavorite,
   onReadMore,
+  onDelete,
 }) => {
   const truncatedInstructions =
     instructions.length > 100
@@ -50,6 +52,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       <button onClick={onReadMore} className={styles.readMoreButton}>
         Read More
       </button>
+      <button onClick={onDelete} className={styles.deleteButton}>
+          <FaTrash /> 
+        </button>
     </div>
   );
 };
