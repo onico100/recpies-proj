@@ -1,10 +1,10 @@
 import my_http from "@/services/http";
 import { ObjectId } from "mongodb";
+import { useCategoriesStore } from "@/stores/categoriesStore";
 
   export async function getAllRecipes() {
       try {
           const response = await my_http.get("/recipes");
-          console.log(response.data);
           return response.data;
       }
       catch (error) {
@@ -19,7 +19,12 @@ export const fetchRecipes = async () => {
 
 
 export const addRecipe = async (recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
-  const response = await my_http.post('/recipes', recipe);
+  const { categories } = useCategoriesStore.getState();
+
+  let category=categories.filter((c:any)=>c.category_name===recipe.category)[0]
+  let recipeToSend={recipe_name:recipe.recipe_name, categoryId: category?._id, instructions: recipe.instructions, url_image:recipe.url_image, ingredients:recipe.ingredients}
+ 
+  const response = await my_http.post('/recipes', recipeToSend);
   return response.data;
 };
 

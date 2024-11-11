@@ -9,6 +9,8 @@ type RecipeCardProps = {
   recipe_name: string;
   category_name:  string;
   instructions: string;
+  isFavorite: boolean; 
+  onToggleFavorite: () => void; 
   onReadMore: () => void;
 };
 
@@ -17,18 +19,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   recipe_name,
   category_name,
   instructions,
+  isFavorite,
+  onToggleFavorite,
   onReadMore,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false); 
-
   const truncatedInstructions =
     instructions.length > 100
       ? `${instructions.substring(0, 100)}...`
       : instructions;
 
-  const handleToggleFavorite = () => { 
-    setIsFavorite((prev) => !prev);
-  };
+
 
   return (
     <div className={styles.card}>
@@ -38,16 +38,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           {recipe_name}
         </h3>
         {isFavorite ? (
-            <AiFillStar
-              className={styles.starIcon}
-              onClick={handleToggleFavorite}
-            />
-          ) : (
-            <AiOutlineStar
-              className={styles.starIcon}
-              onClick={handleToggleFavorite}
-            />
-          )}
+          <AiFillStar className={styles.starIcon} onClick={onToggleFavorite} />
+        ) : (
+          <AiOutlineStar className={styles.starIcon} onClick={onToggleFavorite} />
+        )}
       </div>
       <p className={styles.category}>
         <strong>Category:</strong> {category_name}

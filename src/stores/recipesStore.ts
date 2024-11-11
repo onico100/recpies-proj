@@ -21,6 +21,5 @@ export type Recipe = {
     fetchRecipes: async () => {
       const recipesData = await getAllRecipes();
       set({ recipes: recipesData });
-      console.log("store: ", recipesData);
     },
   }));

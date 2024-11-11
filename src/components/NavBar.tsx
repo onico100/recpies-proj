@@ -4,10 +4,6 @@ import Link from 'next/link';
 import styles from '@/styles/NavBar.module.css';
 import { useCategoriesStore } from '@/stores/categoriesStore';
 
-type Category = {
-    _id: string;
-    category_name: string;
-}
 export default function NavBar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -22,6 +18,7 @@ export default function NavBar() {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    
     const handleCategoryChange = (value: string) => {
         if (selectedCategories.includes(value)) {
             setSelectedCategories(selectedCategories.filter(category => category !== value));
