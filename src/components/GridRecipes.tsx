@@ -10,16 +10,19 @@ import { deleteRecipe } from "@/services/recipesService";
 
 interface GridRecipesProps {
   searchQuery: string;
+  selectedCategories: string[]; // New prop for selected categories
 }
 
-export default function GridRecipes({ searchQuery }: GridRecipesProps) {
+export default function GridRecipes({
+  searchQuery,
+  selectedCategories,
+}: GridRecipesProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
-  // Zustand categories store
   const { categories, fetchCategories } = useCategoriesStore();
   const { recipes, fetchRecipes } = useRecipesStore();
 
@@ -70,7 +73,10 @@ export default function GridRecipes({ searchQuery }: GridRecipesProps) {
     const matchesSearch = recipe.recipe_name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return matchesFavorites && matchesSearch;
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(getCategoryNameById(recipe.categoryId));
+    return matchesFavorites && matchesSearch && matchesCategory;
   });
 
   return (
