@@ -27,7 +27,7 @@ export default function GridRecipes() {
   const { recipes, fetchRecipes } = useRecipesStore();
 
   useEffect(() => {
-    setLoading(true); // התחלת טעינה
+    setLoading(true); 
     fetchCategories();
     fetchRecipes();
     setLoading(false); 
@@ -60,7 +60,9 @@ export default function GridRecipes() {
       }
       const category = categories.find((cat) => cat._id === category_id);
       console.log("category found: ", category);
-      return category ? category.category_name : "Unknown ";   
+
+      return category ? category.category_name : "Unknown category";
+
     } catch(err){
       console.error("Error: ", err);
       return "err";
