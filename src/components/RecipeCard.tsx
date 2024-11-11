@@ -7,7 +7,7 @@ import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 type RecipeCardProps = {
   url_image: string;
   recipe_name: string;
-  category: string;
+  category_name: string;
   instructions: string;
   onReadMore: () => void;
 };
@@ -15,7 +15,7 @@ type RecipeCardProps = {
 const RecipeCard: React.FC<RecipeCardProps> = ({
   url_image,
   recipe_name,
-  category,
+  category_name,
   instructions,
   onReadMore,
 }) => {
@@ -50,7 +50,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           )}
       </div>
       <p className={styles.category}>
-        <strong>Category:</strong> {category}
+        <strong>Category:</strong> {category_name}
       </p>
       <p className={styles.instructions}>{truncatedInstructions}</p>
       <button onClick={onReadMore} className={styles.readMoreButton}>

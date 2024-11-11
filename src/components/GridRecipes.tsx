@@ -10,7 +10,7 @@ type Recipe = {
   _id: string;
   url_image: string;
   recipe_name: string;
-  category: { category_id: string };
+  category: { category_id: string, category_name: string };
   instructions: string;
   ingredients: string[];
 };
@@ -31,6 +31,7 @@ export default function GridRecipes() {
       try {
         const recipesData = await getAllRecipes();
         setRecipes(recipesData);
+        console.log("grid recipes: ", recipesData);
       } catch (err) {
         setError(err instanceof Error ? err.message : "שגיאה לא ידועה");
       } finally {
@@ -63,7 +64,7 @@ export default function GridRecipes() {
           key={recipe._id}
           url_image={recipe.url_image}
           recipe_name={recipe.recipe_name}
-          category={recipe.category ? getCategoryNameById(recipe.category.category_id) : "קטגוריה לא ידועה"} // בדיקה אם category קיים
+          category_name= {recipe.category }
           instructions={recipe.instructions}
           onReadMore={() => handleReadMoreClick(recipe)}
         />
@@ -76,7 +77,7 @@ export default function GridRecipes() {
           onClose={handleCloseSidebar}
           recipe={{
             ...selectedRecipe,
-            categoryName: getCategoryNameById(selectedRecipe.category.category_id),
+            categoryName: getCategoryNameById(selectedRecipe.category.category_name),
           }} // Pass category name to RecipeDetails
         />
       )}
