@@ -4,6 +4,7 @@ D
 ## Getting Started
 
 First, run the development server:dydjytdyjyt
+kugug
 
 ```bash
 npm run dev
