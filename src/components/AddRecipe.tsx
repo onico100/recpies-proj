@@ -10,7 +10,7 @@ import styles from "@/styles/AddRecipe.module.css";
 import { addRecipe } from "@/services/recipesService";
 import { ObjectId } from "mongodb";
 
-const categories = ["Choose", "Appetizer", "Main Course", "Dessert"];
+const categories = ["Choose", "Appetizer", "Main Corse", "Dessert"];
 
 const recipeSchema = z.object({
   recipe_name: z

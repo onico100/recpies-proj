@@ -20,9 +20,10 @@ export const fetchRecipes = async () => {
 
 export const addRecipe = async (recipe: { recipe_name: string; category: string; instructions: string;url_image:string;ingredients:Array<string> }) => {
   const { categories } = useCategoriesStore.getState();
-  let categoryId=categories.filter((c:any)=>c.category_name==recipe.category)[0]
-  console.log(categoryId,300)
-  let recipeToSend={recipe_name:recipe.recipe_name, categoryId: categoryId, instructions: recipe.instructions, url_image:recipe.url_image, ingredients:recipe.ingredients}
+
+  let category=categories.filter((c:any)=>c.category_name===recipe.category)[0]
+  let recipeToSend={recipe_name:recipe.recipe_name, categoryId: category?._id, instructions: recipe.instructions, url_image:recipe.url_image, ingredients:recipe.ingredients}
+ 
   const response = await my_http.post('/recipes', recipeToSend);
   return response.data;
 };
