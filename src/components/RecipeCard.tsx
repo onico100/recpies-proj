@@ -19,14 +19,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   instructions,
   onReadMore,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false); // Highlight: State for favorite
+  const [isFavorite, setIsFavorite] = useState(false); 
 
   const truncatedInstructions =
     instructions.length > 100
       ? `${instructions.substring(0, 100)}...`
       : instructions;
 
-  const handleToggleFavorite = () => { // Highlight: Function to toggle favorite
+  const handleToggleFavorite = () => { 
     setIsFavorite((prev) => !prev);
   };
 
