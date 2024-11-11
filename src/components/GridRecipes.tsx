@@ -7,6 +7,7 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
+import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -29,6 +30,9 @@ export default function GridRecipes({
   useEffect(() => {
     fetchCategories();
     fetchRecipes();
+    let favorits=getFromLocalStorage() ||[]
+    setFavoriteRecipes(favorits)
+
   }, [fetchCategories, fetchRecipes]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
@@ -42,11 +46,14 @@ export default function GridRecipes({
   };
 
   const handleToggleFavorite = (recipeId: string) => {
-    setFavoriteRecipes((prev) =>
-      prev.includes(recipeId)
+    setFavoriteRecipes((prev) => {
+      const updatedFavorites = prev.includes(recipeId)
         ? prev.filter((id) => id !== recipeId)
-        : [...prev, recipeId]
-    );
+        : [...prev, recipeId];
+      
+      saveToLocalStorage(updatedFavorites);
+      return updatedFavorites;
+    });
   };
 
   const isRecipeFavorite = (recipeId: string) =>
