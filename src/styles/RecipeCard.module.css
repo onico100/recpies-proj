@@ -53,11 +53,12 @@
 .deleteButton {
   background-color: #333333; /* שחור */
   color: white;
-  padding: 12px 14px;
+  padding: 8px 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-top: auto;
+  font-size: 10px;
 }
 
 .deleteButton:hover {
@@ -69,11 +70,12 @@
 .readMoreButton {
   background-color:  #b63b35; /* חרדלי */
   color: white;
-  padding: 8px 12px;
+  padding: 6px 6px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-top: auto;
+  font-size: 10px;
 }
 
 .readMoreButton:hover {
