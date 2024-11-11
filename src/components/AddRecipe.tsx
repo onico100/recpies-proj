@@ -47,8 +47,6 @@ const AddRecipe = () => {
     
      addRecipe(recipe)
 
-    console.log(data,300);
-
     reset();
     setIngredientList([]);
     router.push("/");

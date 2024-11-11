@@ -15,6 +15,7 @@ export async function POST(req: Request) {
     const client = await connectDatabase();
     const newRecipe = await req.json()
     try {
+        
         newRecipe.categoryId = new ObjectId(newRecipe.categoryId);
         const result = await insertDocument(client, 'recipes', newRecipe);
         client.close();
