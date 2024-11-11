@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { getAllCategories } from '@/services/categoriesService';
 
 type Category = {
-    category_id: string;
+    _id: string;
   category_name: string;
 };
 

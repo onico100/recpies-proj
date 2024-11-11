@@ -11,7 +11,7 @@ type RecipeDetailsProps = {
     _id: string;
     url_image: string;
     recipe_name: string;
-    categoryName: string; // Updated to receive category name
+    categoryName: string;
     instructions: string;
     ingredients: string[];
   };
