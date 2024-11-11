@@ -1,6 +1,5 @@
 //..components/NavBar.tsx
 "use client";
-// In NavBar.tsx
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -9,12 +8,13 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 
 interface NavBarProps {
   onSearch: (query: string) => void;
+  onCategoryChange: (categories: string[]) => void; // New prop for category change
 }
 
-export default function NavBar({ onSearch }: NavBarProps) {
+export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); // New search query state
+  const [searchQuery, setSearchQuery] = useState("");
   const { categories, fetchCategories } = useCategoriesStore();
 
   useEffect(() => {
@@ -26,26 +26,26 @@ export default function NavBar({ onSearch }: NavBarProps) {
   };
 
   const handleCategoryChange = (value: string) => {
-    if (selectedCategories.includes(value)) {
-      setSelectedCategories(
-        selectedCategories.filter((category) => category !== value)
-      );
-    } else {
-      setSelectedCategories([...selectedCategories, value]);
-    }
+    const newSelectedCategories = selectedCategories.includes(value)
+      ? selectedCategories.filter((category) => category !== value)
+      : [...selectedCategories, value];
+    setSelectedCategories(newSelectedCategories);
+    onCategoryChange(newSelectedCategories); // Trigger category change
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const removeCategory = (value: string) => {
-    setSelectedCategories(
-      selectedCategories.filter((category) => category !== value)
+    const newSelectedCategories = selectedCategories.filter(
+      (category) => category !== value
     );
+    setSelectedCategories(newSelectedCategories);
+    onCategoryChange(newSelectedCategories); // Trigger category change
     setIsDropdownOpen(false);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
-    onSearch(event.target.value); // Trigger search in GridRecipes
+    onSearch(event.target.value);
   };
 
   return (
@@ -65,7 +65,7 @@ export default function NavBar({ onSearch }: NavBarProps) {
                       className={styles.removeButton}
                       onClick={() => removeCategory(category)}
                     >
-                      &times;
+                      ×
                     </button>
                   </div>
                 ))}
@@ -91,7 +91,7 @@ export default function NavBar({ onSearch }: NavBarProps) {
             placeholder="Search recipes..."
             className={styles.searchInput}
             value={searchQuery}
-            onChange={handleSearchChange} // Handle search input
+            onChange={handleSearchChange}
           />
         </div>
         <Link href="/addRecipe">
