@@ -14,7 +14,9 @@ export default function GridRecipes() {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]); 
+  const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
+  const [showFavorites, setShowFavorites] = useState(false);
+
 
   // Zustand categories store
   const { categories, fetchCategories } = useCategoriesStore();
@@ -23,7 +25,7 @@ export default function GridRecipes() {
   useEffect(() => {
     fetchCategories();
     fetchRecipes();
-  }, [fetchCategories , fetchRecipes]);
+  }, [fetchCategories, fetchRecipes]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -44,55 +46,76 @@ export default function GridRecipes() {
 
   const isRecipeFavorite = (recipeId: string) => favoriteRecipes.includes(recipeId);
 
-  const getCategoryNameById = (category_id:string) => {
-    try{
+  const getCategoryNameById = (category_id: string) => {
+    try {
       const category = categories.find((cat) => cat._id === category_id);
       console.log("category found: ", category);
 
       return category ? category.category_name : "Unknown category";
 
-    } catch(err){
+    } catch (err) {
       console.error("Error: ", err);
       return "err";
-  }
+    }
   };
 
   const handleDeleteClick = async (recipeId: string) => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {
-      await deleteRecipe(recipeId); // קריאה לפונקציית המחיקה
-      fetchRecipes(); // רענון רשימת המתכונים לאחר המחיקה
+      await deleteRecipe(recipeId);
+      fetchRecipes();
     }
   };
-  
+
+  const filteredRecipes = showFavorites
+    ? recipes.filter((recipe) => isRecipeFavorite(recipe._id))
+    : recipes;
+
   return (
-    <div className={styles.grid}>
-      {recipes?.map((recipe) => (
-        <RecipeCard
-          key={recipe._id}
-          url_image={recipe.url_image}
-          recipe_name={recipe.recipe_name}
-          category_name={getCategoryNameById(recipe.categoryId)}
-          instructions={recipe.instructions}
-          isFavorite={isRecipeFavorite(recipe._id)} 
-          onToggleFavorite={() => handleToggleFavorite(recipe._id)} 
-          onReadMore={() => handleReadMoreClick(recipe)}
-          onDelete={() => handleDeleteClick(recipe._id)}
-        />
-      ))}
+    <div>
+      <div className={styles.buttonContainer}>
+        <button
+          className={`${styles.button} ${!showFavorites ? styles.activeButton : ''}`}
+          onClick={() => setShowFavorites(false)}
+        >
+          All Recepies
+        </button>
+        <button
+          className={`${styles.button} ${showFavorites ? styles.activeButton : ''}`}
+          onClick={() => setShowFavorites(true)}
+        >
+          Favorites
+        </button>
+      </div>
 
-      {selectedRecipe && (
-        <RecipeDetails
-          isOpen={isSidebarOpen}
-          onClose={handleCloseSidebar}
-          recipe={{
-            ...selectedRecipe,
-            categoryName: getCategoryNameById(selectedRecipe.categoryId)
-          }} 
-          isFavorite={isRecipeFavorite(selectedRecipe._id)} 
-          onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)} 
+      <div className={styles.grid}>
+        {filteredRecipes?.map((recipe) => (
+          <RecipeCard
+            key={recipe._id}
+            url_image={recipe.url_image}
+            recipe_name={recipe.recipe_name}
+            category_name={getCategoryNameById(recipe.categoryId)}
+            instructions={recipe.instructions}
+            isFavorite={isRecipeFavorite(recipe._id)}
+            onToggleFavorite={() => handleToggleFavorite(recipe._id)}
+            onReadMore={() => handleReadMoreClick(recipe)}
+            onDelete={() => handleDeleteClick(recipe._id)}
+          />
+        ))}
 
-        />
-      )}
+        {selectedRecipe && (
+          <RecipeDetails
+            isOpen={isSidebarOpen}
+            onClose={handleCloseSidebar}
+            recipe={{
+              ...selectedRecipe,
+              categoryName: getCategoryNameById(selectedRecipe.categoryId)
+            }}
+            isFavorite={isRecipeFavorite(selectedRecipe._id)}
+            onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)}
+
+          />
+        )}
+      </div>
     </div>
   );
 }
