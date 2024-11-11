@@ -7,7 +7,7 @@ import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 type RecipeCardProps = {
   url_image: string;
   recipe_name: string;
-  category_name: string;
+  category_name:  string;
   instructions: string;
   onReadMore: () => void;
 };
