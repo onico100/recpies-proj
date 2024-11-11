@@ -9,7 +9,6 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    /* Make sure the overlay is on top */
 }
 
 .popup {
@@ -32,17 +31,56 @@
     cursor: pointer;
 }
 
-.recipeName {
+.content {
+    display: flex;
+}
+
+.name {
+    font-size: 1.5em;
     margin: 0;
 }
 
+
 .image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
 }
 
-.ingredient {
-    list-style-type: none;
-    padding: 0;
+.info {
+    flex: 1;
+}
+
+.category {
+    font-size: 1.2em;
+    margin: 4px 0;
+}
+
+.ingredientsTitle {
+    font-weight: bold;
+    margin: 8px 0 4px;
+}
+
+.ingredientsList {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.instructions {
+    color: #333;
+    margin-top: 12px;
+}
+
+.categoryContainer {
+    display: flex;
+    align-items: center; 
+}
+
+.starIcon {
+    margin-left: 10px; 
+    cursor: pointer; 
+    color: #FFD700; 
 }
