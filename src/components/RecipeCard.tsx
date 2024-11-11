@@ -49,12 +49,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         <strong>Category:</strong> {category_name}
       </p>
       <p className={styles.instructions}>{truncatedInstructions}</p>
-      <button onClick={onReadMore} className={styles.readMoreButton}>
+      <div className={styles.divButtons}><button onClick={onReadMore} className={styles.readMoreButton}>
         Read More
       </button>
       <button onClick={onDelete} className={styles.deleteButton}>
           <FaTrash /> 
-        </button>
+        </button></div>
     </div>
   );
 };
