@@ -1,4 +1,3 @@
-//..components/GridRecipes.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
@@ -9,14 +8,16 @@ import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
 
+interface GridRecipesProps {
+  searchQuery: string;
+}
 
-export default function GridRecipes() {
+export default function GridRecipes({ searchQuery }: GridRecipesProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-
 
   // Zustand categories store
   const { categories, fetchCategories } = useCategoriesStore();
@@ -29,13 +30,13 @@ export default function GridRecipes() {
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-    console.log(recipe.categoryId);
     setIsSidebarOpen(true);
   };
 
   const handleCloseSidebar = () => {
     setIsSidebarOpen(false);
   };
+
   const handleToggleFavorite = (recipeId: string) => {
     setFavoriteRecipes((prev) =>
       prev.includes(recipeId)
@@ -44,18 +45,16 @@ export default function GridRecipes() {
     );
   };
 
-  const isRecipeFavorite = (recipeId: string) => favoriteRecipes.includes(recipeId);
+  const isRecipeFavorite = (recipeId: string) =>
+    favoriteRecipes.includes(recipeId);
 
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
-      console.log("category found: ", category);
-
       return category ? category.category_name : "Unknown category";
-
     } catch (err) {
       console.error("Error: ", err);
-      return "err";
+      return "Error";
     }
   };
 
@@ -66,21 +65,29 @@ export default function GridRecipes() {
     }
   };
 
-  const filteredRecipes = showFavorites
-    ? recipes.filter((recipe) => isRecipeFavorite(recipe._id))
-    : recipes;
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesFavorites = !showFavorites || isRecipeFavorite(recipe._id);
+    const matchesSearch = recipe.recipe_name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    return matchesFavorites && matchesSearch;
+  });
 
   return (
     <div>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${!showFavorites ? styles.activeButton : ''}`}
+          className={`${styles.button} ${
+            !showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(false)}
         >
-          All Recepies
+          All Recipes
         </button>
         <button
-          className={`${styles.button} ${showFavorites ? styles.activeButton : ''}`}
+          className={`${styles.button} ${
+            showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(true)}
         >
           Favorites
@@ -108,11 +115,10 @@ export default function GridRecipes() {
             onClose={handleCloseSidebar}
             recipe={{
               ...selectedRecipe,
-              categoryName: getCategoryNameById(selectedRecipe.categoryId)
+              categoryName: getCategoryNameById(selectedRecipe.categoryId),
             }}
             isFavorite={isRecipeFavorite(selectedRecipe._id)}
             onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)}
-
           />
         )}
       </div>
