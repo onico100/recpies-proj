@@ -116,6 +116,8 @@ const AddRecipe = () => {
 
         <div className={styles["form-group"]}>
           <label>Ingredients</label>
+          <p>Press  '+' for adding</p>
+          <div className={styles.addIngredients}>
           <input
             type="text"
             placeholder="Add ingredient"
@@ -123,8 +125,10 @@ const AddRecipe = () => {
             onChange={(e) => setIngredient(e.target.value)}
           />
           <button type="button" onClick={handleAddIngredient}>
-            Add Ingredient
+            +
           </button>
+          </div>
+          <br/>
           <ul className={styles["ingredient-list"]}>
             {ingredientList.map((ing, index) => (
               <li key={index}>{ing}</li>

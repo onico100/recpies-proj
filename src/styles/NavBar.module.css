@@ -1,9 +1,9 @@
   .navbar {
     display: flex;
-    justify-content: space-between; /* מרווח בין הכותרת לפריטים האחרים */
+    justify-content: space-between;
     align-items: center;
-    background-color: #333333; /* שחור */
-    padding: 10px 20px;
+    background-color: #333333;
+    padding: 15px 20px;
     color: white;
     font-family: 'Playfair Display', serif; 
 }
@@ -17,7 +17,7 @@
 
 .controlsContainer {
     display: flex;
-    gap: 15px; /* רווח בין הפריטים בצד ימין */
+    gap: 15px;
     align-items: center;
 }
 
@@ -48,15 +48,9 @@
     flex-wrap: wrap; 
   }
   
-  .searchContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
+
   .searchInput {
     padding: 5px;
-    /* margin-right: 10px; */
     border: 1px solid #ccc;
     border-radius: 4px;
     color: black;

@@ -8,17 +8,17 @@ import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 interface GridRecipesProps {
   searchQuery: string;
-  selectedCategories: string[]; // New prop for selected categories
+  selectedCategories: string[];
 }
 
 export default function GridRecipes({
   searchQuery,
   selectedCategories,
 }: GridRecipesProps) {
-  const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
@@ -105,7 +105,7 @@ export default function GridRecipes({
           }`}
           onClick={() => setShowFavorites(true)}
         >
-          Favorites
+          <div className={styles.favTitle}><AiFillStar className={styles.starIcon} />{" "}Favorites{" "}<AiFillStar className={styles.starIcon} /></div>
         </button>
       </div>
 

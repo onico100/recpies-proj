@@ -1,8 +1,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  padding: 20px;
+  gap: 12px;
+  margin-left: 8%;
   font-family: 'Lobster', cursive;
 }
 
@@ -15,7 +15,7 @@
 
 .button {
   background-color: transparent; 
-  color: #333; /* טקסט כהה */
+  color: #333; 
   border: none;
   padding: 8px 16px;
   text-align: center;
@@ -29,10 +29,16 @@
 
 .button:hover {
   background-color: #b63b35;
-  bcolor: #fafafa;
+  color: #fafafa;
 }
 
 .activeButton {
   color: #333333; 
   border-bottom: 2px solid #333333;
+}
+
+.favTitle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

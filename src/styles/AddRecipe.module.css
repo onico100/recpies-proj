@@ -14,6 +14,46 @@
   margin-bottom: 20px;
 }
 
+.addIngredients {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* רווח בין תיבת הטקסט לכפתור */
+}
+
+.addIngredients input[type="text"] {
+  flex: 1; /* תופס את כל רוחב המיכל */
+  padding: 12px 15px;
+  border: 1px solid #b5b5b5;
+  border-radius: 8px;
+  font-size: 1em;
+  color: #333333; /* טקסט כהה */
+  background-color: #ffffff; /* לבן */
+  font-family: 'Playfair Display', serif;
+  transition: border-color 0.3s;
+}
+
+.addIngredients input[type="text"]:focus {
+  border-color: #b63b35; /* צבע לחיצה כהה */
+  outline: none;
+}
+
+.addIngredients button {
+  padding: 12px 15px; /* התאמה לגובה של תיבת הטקסט */
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #b63b35; /* צבע הכפתור */
+  color: white;
+  cursor: pointer;
+  font-family: 'Lobster', cursive;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.addIngredients button:hover {
+  background-color: #8b3631; /* כהה יותר לכפתור */
+  transform: scale(1.02);
+}
 
 .form-container label {
   display: block;
@@ -41,23 +81,22 @@
 .form-container textarea:focus, 
 .form-container input[type="text"]:focus, 
 .form-container select:focus {
-  border-color: #b63b35; /* חרדלי כהה */
+  border-color: #b63b35; /* צבע לחיצה כהה */
   outline: none;
 }
 
 .form-container textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 50px;
 }
 
 .form-container button {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 20px;
+  padding: 10.5px 25px;
   font-size: 1.1em;
   border: none;
   border-radius: 8px;
-  background-color: #b63b35; /* חרדלי כהה */
+  background-color: #b63b35; 
   color: white;
   cursor: pointer;
   font-family: 'Lobster', cursive;
@@ -65,12 +104,12 @@
 }
 
 .form-container button:hover {
-  background-color: #8b3631; /* כהה יותר לחרדלי */
+  background-color: #8b3631;
   transform: scale(1.02);
 }
 
 .error-message {
-  color: #b63b35; /* חרדלי כהה */
+  color: #b63b35; 
   font-size: 0.9em;
   margin-top: 8px;
 }
@@ -79,20 +118,20 @@
   list-style-type: disc;
   padding-left: 20px;
   margin-top: 10px;
-  color: #333333; /* טקסט כהה */
+  color: #333333; 
 }
 
 .recipe-data {
   margin-top: 25px;
   padding: 20px;
-  background-color: #ffffff; /* לבן */
+  background-color: #ffffff; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recipe-data h2 {
   margin-top: 0;
-  color: #b63b35; /* חרדלי כהה */
+  color: #b63b35;
   font-family: 'Lobster', cursive;
   font-size: 1.4em;
 }
@@ -106,7 +145,7 @@
   font-weight: bold;
   padding: 10px;
   border-radius: 4px;
-  color: #b63b35; /* חרדלי כהה */
+  color: #b63b35;
   font-family: 'Lobster', cursive;
   transition: color 0.3s ease;
 }
