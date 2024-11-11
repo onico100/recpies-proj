@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,9 +8,11 @@ import { useRouter } from "next/navigation";
 import styles from "@/styles/AddRecipe.module.css";
 import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from 'react-icons/fa';
-import { ObjectId } from "mongodb";
+import { useCategoriesStore } from "@/stores/categoriesStore";
 
-const categories = ["Choose", "Appetizer", "Main Corse", "Dessert"];
+const { categories } = useCategoriesStore.getState();
+let categoriesNames = categories.map(category => category.category_name);
+const categoriesList = ["Choose", ...categoriesNames];
 
 const recipeSchema = z.object({
   recipe_name: z
@@ -47,8 +48,6 @@ const AddRecipe = () => {
     let recipe = { recipe_name: data.recipe_name, category: data.category, instructions: data.instructions, url_image: data.url_image, ingredients: data.ingredients }
 
     addRecipe(recipe)
-
-    console.log(data, 300);
 
     reset();
     setIngredientList([]);
@@ -86,7 +85,7 @@ const AddRecipe = () => {
         <div className={styles["form-group"]}>
           <label>Category</label>
           <select {...register("category")}>
-            {categories.map((cat, index) => (
+            {categoriesList.map((cat, index) => (
               <option key={index} value={cat}>
                 {cat}
               </option>

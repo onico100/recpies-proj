@@ -1,79 +1,103 @@
-'use client'
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import styles from '@/styles/NavBar.module.css';
-import { useCategoriesStore } from '@/stores/categoriesStore';
+//..components/NavBar.tsx
+"use client";
 
-export default function NavBar() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const { categories, fetchCategories } = useCategoriesStore();
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import styles from "@/styles/NavBar.module.css";
+import { useCategoriesStore } from "@/stores/categoriesStore";
 
-    useEffect(() => {
-        fetchCategories();
-    }, [fetchCategories]);
+interface NavBarProps {
+  onSearch: (query: string) => void;
+  onCategoryChange: (categories: string[]) => void; // New prop for category change
+}
 
+export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { categories, fetchCategories } = useCategoriesStore();
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
-    
-    const handleCategoryChange = (value: string) => {
-        if (selectedCategories.includes(value)) {
-            setSelectedCategories(selectedCategories.filter(category => category !== value));
-        } else {
-            setSelectedCategories([...selectedCategories, value]);
-        }
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
-    const removeCategory = (value: string) => {
-        setSelectedCategories(selectedCategories.filter(category => category !== value));
-        setIsDropdownOpen(false);
-    };
+  const handleCategoryChange = (value: string) => {
+    const newSelectedCategories = selectedCategories.includes(value)
+      ? selectedCategories.filter((category) => category !== value)
+      : [...selectedCategories, value];
+    setSelectedCategories(newSelectedCategories);
+    onCategoryChange(newSelectedCategories); // Trigger category change
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
-    return (
-        <div className={styles.navbar}>
-            <h1 className={styles.title}>Recipes</h1>
-            <div className={styles.controlsContainer}>
-                <div className={styles.dropdown}>
-                    <button className={styles.select} onClick={toggleDropdown}>
-                        {selectedCategories.length === 0 ? 'Pick a category...' :
-                            <div className={styles.selectedCategories}>
-                                {selectedCategories.map(category => (
-                                    <div key={category} className={styles.categoryTag}>
-                                        {category}
-                                        <button
-                                            className={styles.removeButton}
-                                            onClick={() => removeCategory(category)}
-                                        >
-                                            &times;
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        }
-                    </button>
-                    {isDropdownOpen && (
-                        <ul className={styles.dropdownMenu}>
-                            {categories.map(category => (
-                                <li key={category._id} onClick={() => handleCategoryChange(category.category_name)}>
-                                    {category.category_name}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-                <div className={styles.searchContainer}>
-                    <input type="text" placeholder="Search recipes..." className={styles.searchInput} />
-                </div>
-                <Link href="/addRecipe">
-                    <button className={styles.addRecipeButton}>
-                        Add Recipe
-                    </button>
-                </Link>
-            </div>
-        </div>
+  const removeCategory = (value: string) => {
+    const newSelectedCategories = selectedCategories.filter(
+      (category) => category !== value
     );
+    setSelectedCategories(newSelectedCategories);
+    onCategoryChange(newSelectedCategories); // Trigger category change
+    setIsDropdownOpen(false);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    onSearch(event.target.value);
+  };
+
+  return (
+    <div className={styles.navbar}>
+      <h1 className={styles.title}>Recipes</h1>
+      <div className={styles.controlsContainer}>
+        <div className={styles.dropdown}>
+          <button className={styles.select} onClick={toggleDropdown}>
+            {selectedCategories.length === 0 ? (
+              "Pick a category..."
+            ) : (
+              <div className={styles.selectedCategories}>
+                {selectedCategories.map((category) => (
+                  <div key={category} className={styles.categoryTag}>
+                    {category}
+                    <button
+                      className={styles.removeButton}
+                      onClick={() => removeCategory(category)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </button>
+          {isDropdownOpen && (
+            <ul className={styles.dropdownMenu}>
+              {categories.map((category) => (
+                <li
+                  key={category._id}
+                  onClick={() => handleCategoryChange(category.category_name)}
+                >
+                  {category.category_name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="Search recipes..."
+            className={styles.searchInput}
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <Link href="/addRecipe">
+          <button className={styles.addRecipeButton}>Add Recipe</button>
+        </Link>
+      </div>
+    </div>
+  );
 }
