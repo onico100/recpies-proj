@@ -61,7 +61,7 @@ export default function NavBar() {
                     {isDropdownOpen && (
                         <ul className={styles.dropdownMenu}>
                             {categories.map(category => (
-                                <li key={category.category_id} onClick={() => handleCategoryChange(category.category_name)}>
+                                <li key={category._id} onClick={() => handleCategoryChange(category.category_name)}>
                                     {category.category_name}
                                 </li>
                             ))}
