@@ -58,11 +58,11 @@ export default function GridRecipes() {
       if (loading) {
         return "Loading categorys..."
       }
-      console.log("category id: ", category_id);
-      console.log("categories: ", categories);
       const category = categories.find((cat) => cat._id === category_id);
       console.log("category found: ", category);
+
       return category ? category.category_name : "Unknown category";
+
     } catch(err){
       console.error("Error: ", err);
       return "err";
@@ -71,7 +71,7 @@ export default function GridRecipes() {
 
   return (
     <div className={styles.grid}>
-      {recipes.map((recipe) => (
+      {recipes?.map((recipe) => (
       // <p>"id: "{getCategoryNameById(recipe.categoryId)}</p>
         <RecipeCard
           key={recipe._id}

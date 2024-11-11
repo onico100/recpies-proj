@@ -18,6 +18,7 @@ export async function insertDocument(
   collection: string,
   document: object
 ) {
+  console.log("insertDocument-mongo"+document)
   const db = client.db(databaseName);
   const result = await db.collection(collection).insertOne(document);
   return result;

@@ -11,7 +11,7 @@ import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from 'react-icons/fa';
 import { ObjectId } from "mongodb";
 
-const categories = ["Choose", "Appetizer", "Main Course", "Dessert"];
+const categories = ["Choose", "Appetizer", "Main Corse", "Dessert"];
 
 const recipeSchema = z.object({
   recipe_name: z
