@@ -1,5 +1,3 @@
-/* RecipeCard.module.css */
-
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -8,9 +6,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between; /* יוודא שהכפתורים בתחתית */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 250px;
+  height: 100%; /* יוודא שהכרטיס לוקח את כל גובהו */
   text-align: center;
+  font-family: 'Playfair Display', serif;
+}
+
+.divButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Lobster', cursive;
+  margin-top: auto; /* מוודא שהכפתורים בתחתית */
 }
 
 .image {
@@ -23,24 +33,25 @@
 
 .name {
   font-size: 1.2em;
-  /* margin: 8px 0; */
   margin: 0;
-
+  font-family: 'Lobster', cursive;
 }
 
 .category {
-  color: #888;
+  color:  #b63b35; /* חרדלי */
   margin: 4px 0;
 }
 
 .instructions {
   font-size: 0.9em;
-  color: #333;
+  color: #333333; /* טקסט כהה */
   margin: 8px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
 }
 
 .deleteButton {
-  background-color: #f44336;
+  background-color: #333333; /* שחור */
   color: white;
   padding: 12px 14px;
   border: none;
@@ -50,18 +61,13 @@
 }
 
 .deleteButton:hover {
-  background-color: #d32f2f;
+  background-color: #555555; /* אפור כהה */
 }
 
-.divButtons {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: flex-start; 
-}
+
 
 .readMoreButton {
-  background-color: #4caf50;
+  background-color:  #b63b35; /* חרדלי */
   color: white;
   padding: 8px 12px;
   border: none;
@@ -71,21 +77,19 @@
 }
 
 .readMoreButton:hover {
-  background-color: #45a049;
+  background-color: #8b3631; /* כהה יותר לחרדלי */
 }
 
-
-
 .header {
-  display: flex; /* Flex container for the header */
-  justify-content: space-between; /* Space between name and star */
-  align-items: center; /* Center align vertically */
-  width: 100%; /* Ensure it takes full width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .starIcon {
   margin-left: 8px; 
   cursor: pointer; 
-  color: #ffa500; 
-  transition: color 0.2s; 
+  color:  #b63b35; /* חרדלי */
+  transition: color 0.2s;
 }

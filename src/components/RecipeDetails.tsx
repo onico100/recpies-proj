@@ -36,7 +36,7 @@ export default function RecipeDetails({
       <div className={styles.popup}>
         <button className={styles.closeButton} onClick={onClose}>&times;</button>
         <div className={styles.content}>
-          <img className={styles.image} src={recipe.url_image} alt={recipe.recipe_name} />
+          
           <div className={styles.info}>
             <h2 className={styles.name}>{recipe.recipe_name}</h2>
             <div className={styles.categoryContainer}>
@@ -54,8 +54,10 @@ export default function RecipeDetails({
               ))}
             </ul>
           </div>
+          <img className={styles.image} src={recipe.url_image} alt={recipe.recipe_name} />
         </div>
-        <p className={styles.instructions}>Instructions: {recipe.instructions}</p>
+        <hr className={styles.divider} />
+        <p className={styles.instructions}><b>Instructions:</b> {recipe.instructions}</p>
 
       </div>
     </div>

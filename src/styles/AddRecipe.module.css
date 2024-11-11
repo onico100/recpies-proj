@@ -1,68 +1,100 @@
-/* RecipeForm.module.css */
-
 .form-container {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: black;
+  padding: 30px;
+  background-color: #f5f5f5; /* אפור בהיר */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  color: #333333; /* טקסט כהה */
+  font-family: 'Playfair Display', serif;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
+
 
 .form-container label {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 1.1em;
+  color: #333333; /* שחור כהה */
+  margin-bottom: 8px;
+  font-family: 'Lobster', cursive;
+}
+
+.form-container textarea, 
+.form-container input[type="text"], 
+.form-container select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #b5b5b5;
+  border-radius: 8px;
+  font-size: 1em;
+  color: #333333; /* טקסט כהה */
+  background-color: #ffffff; /* לבן */
+  font-family: 'Playfair Display', serif;
+  transition: border-color 0.3s;
+}
+
+.form-container textarea:focus, 
+.form-container input[type="text"]:focus, 
+.form-container select:focus {
+  border-color: #b63b35; /* חרדלי כהה */
+  outline: none;
 }
 
 .form-container textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
 .form-container button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  font-size: 16px;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1.1em;
   border: none;
-  border-radius: 4px;
-  background-color: #4caf50;
+  border-radius: 8px;
+  background-color: #b63b35; /* חרדלי כהה */
   color: white;
   cursor: pointer;
+  font-family: 'Lobster', cursive;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .form-container button:hover {
-  background-color: #45a049;
+  background-color: #8b3631; /* כהה יותר לחרדלי */
+  transform: scale(1.02);
 }
 
 .error-message {
-  color: #d9534f;
-  font-size: 14px;
-  margin-top: 5px;
+  color: #b63b35; /* חרדלי כהה */
+  font-size: 0.9em;
+  margin-top: 8px;
 }
 
 .ingredient-list {
   list-style-type: disc;
   padding-left: 20px;
   margin-top: 10px;
+  color: #333333; /* טקסט כהה */
 }
 
 .recipe-data {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #e8f5e9;
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #ffffff; /* לבן */
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recipe-data h2 {
   margin-top: 0;
-  color: #388e3c;
+  color: #b63b35; /* חרדלי כהה */
+  font-family: 'Lobster', cursive;
+  font-size: 1.4em;
 }
 
 .backLink {
@@ -70,13 +102,15 @@
   align-items: center;
   background-color: transparent;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1.4em;
   font-weight: bold;
   padding: 10px;
   border-radius: 4px;
+  color: #b63b35; /* חרדלי כהה */
+  font-family: 'Lobster', cursive;
   transition: color 0.3s ease;
 }
 
 .backLink:hover {
-  color: #388e3c;
+  color: #8b3631; /* כהה יותר לחרדלי */
 }
