@@ -30,6 +30,7 @@ export default function GridRecipes({ searchQuery }: GridRecipesProps) {
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
+
     setIsSidebarOpen(true);
   };
 
@@ -51,6 +52,7 @@ export default function GridRecipes({ searchQuery }: GridRecipesProps) {
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
+
       return category ? category.category_name : "Unknown category";
     } catch (err) {
       console.error("Error: ", err);

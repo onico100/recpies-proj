@@ -18,7 +18,6 @@ export async function insertDocument(
   collection: string,
   document: object
 ) {
-  console.log("insertDocument-mongo"+document)
   const db = client.db(databaseName);
   const result = await db.collection(collection).insertOne(document);
   return result;
@@ -27,6 +26,5 @@ export async function insertDocument(
 export async function getAllDocuments(client: any, collection: string) {
   const db = client.db(databaseName);
   const documents = await db.collection(collection).find().toArray();
-  console.log("Doc: ", documents);
   return documents;
 }
