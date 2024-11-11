@@ -19,6 +19,8 @@ export default function GridRecipes() {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]); 
+
 
   // Zustand categories store
   const { categories, fetchCategories } = useCategoriesStore();
@@ -40,18 +42,27 @@ export default function GridRecipes() {
   const handleCloseSidebar = () => {
     setIsSidebarOpen(false);
   };
+  const handleToggleFavorite = (recipeId: string) => {
+    setFavoriteRecipes((prev) =>
+      prev.includes(recipeId)
+        ? prev.filter((id) => id !== recipeId)
+        : [...prev, recipeId]
+    );
+  };
+
+  const isRecipeFavorite = (recipeId: string) => favoriteRecipes.includes(recipeId);
 
   // Find category name by ID
   const getCategoryNameById = (category_id:string) => {
     try{
       if (loading) {
-        return "טוען קטגוריות...";
+        return "Loading categorys..."
       }
       console.log("category id: ", category_id);
       console.log("categories: ", categories);
       const category = categories.find((cat) => cat._id === category_id);
       console.log("category found: ", category);
-      return category ? category.category_name : "קטגוריה לא ידועה";
+      return category ? category.category_name : "Unknown ";
     } catch(err){
       console.error("Error: ", err);
       return "err";
@@ -68,6 +79,8 @@ export default function GridRecipes() {
           recipe_name={recipe.recipe_name}
           category_name={getCategoryNameById(recipe.categoryId)}
           instructions={recipe.instructions}
+          isFavorite={isRecipeFavorite(recipe._id)} 
+          onToggleFavorite={() => handleToggleFavorite(recipe._id)} 
           onReadMore={() => handleReadMoreClick(recipe)}
         />
       ))}
@@ -81,6 +94,9 @@ export default function GridRecipes() {
             ...selectedRecipe,
             categoryName: getCategoryNameById(selectedRecipe.categoryId)
           }} // Pass category name to RecipeDetails
+          isFavorite={isRecipeFavorite(selectedRecipe._id)} 
+          onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)} 
+
         />
       )}
     </div>
