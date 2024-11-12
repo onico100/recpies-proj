@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Recipe, useRecipesStore } from "@/stores/recipesStore";
+import { useRecipesStore } from "@/stores/recipesStore";
 import { getAllRecipes } from "@/services/recipesService";
+import { Recipe } from "@/types/RecipeTypes";
 import styles from "@/styles/Fetchers.module.css";
 
 const RecipesFetcher = () => {
