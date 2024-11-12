@@ -8,6 +8,7 @@ import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
 import {RecipeCard, RecipeDetails, ConfirmModal} from './'
 
+
 interface GridRecipesProps {
   searchQuery: string;
   selectedCategories: string[];
@@ -21,9 +22,23 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
   const [visibleCount, setVisibleCount] = useState(4);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
+
   const { categories, setCategories } = useCategoriesStore();
+
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { categories, setCategories } = useCategoriesStore();
+
+  const getCategoryNameById = (category_id: string) => {
+    try {
+      const category = categories.find((cat) => cat._id === category_id);
+      return category ? category.category_name : "Unknown category";
+    } catch (err) {
+      console.error("Error: ", err);
+      return "Error";
+    }
+  };
 
   useEffect(() => {
     let favorits = getFromLocalStorage() || [];
@@ -50,6 +65,7 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
   const isRecipeFavorite = (recipeId: string) =>
     favoriteRecipes.includes(recipeId);
 
+
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
@@ -60,6 +76,7 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
       return "Error";
     }
   };
+
 
   const handleDeleteClick = (recipeId: string) => {
     setSelectedRecipeId(recipeId);
@@ -121,10 +138,8 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
         {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
-            url_image={recipe.url_image}
-            recipe_name={recipe.recipe_name}
-            category_name={getCategoryNameById(recipe.categoryId)}
-            instructions={recipe.instructions}
+            recipe={recipe}
+            getCategoryNameById={getCategoryNameById}
             isFavorite={isRecipeFavorite(recipe._id)}
             onToggleFavorite={() => handleToggleFavorite(recipe._id)}
             onReadMore={() => handleReadMoreClick(recipe)}
