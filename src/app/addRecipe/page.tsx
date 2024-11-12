@@ -1,9 +1,8 @@
-import AddRecipe from "@/components/AddRecipe"; 
+import AddRecipe from "@/components/AddRecipe";
 
-export default function AddRecipePage () {
+export default function AddRecipePage() {
     return (
         <div>
-
             <AddRecipe />
         </div>
     );

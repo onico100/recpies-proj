@@ -1,15 +1,14 @@
-// src/stores/recipesStore.ts
 import { create } from 'zustand';
-import {getAllRecipes} from '@/services/recipesService';
+import { getAllRecipes } from '@/services/recipesService';
 
 export type Recipe = {
-    _id: string;
-    url_image: string;
-    recipe_name: string;
-    categoryId: string;
-    instructions: string;
-    ingredients: string[];
-  };
+  _id: string;
+  url_image: string;
+  recipe_name: string;
+  categoryId: string;
+  instructions: string;
+  ingredients: string[];
+};
 
  export type RecipesStore = {
     recipes: Recipe[];
@@ -20,3 +19,4 @@ export type Recipe = {
     recipes: [],
    setRecipes:(recipes)=>set({recipes})
   }));
+

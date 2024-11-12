@@ -30,8 +30,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       ? `${instructions.substring(0, 100)}...`
       : instructions;
 
-
-
   return (
     <div className={styles.card}>
       <img src={url_image} alt={recipe_name} className={styles.image} />

@@ -1,4 +1,3 @@
-//..components/NavBar.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,8 +16,16 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const { categories, setCategories } = useCategoriesStore();
 
+  let delletedCategories = false;
+
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    if(delletedCategories)
+    {
+      setIsDropdownOpen(false);
+      delletedCategories = false;
+    }
+    else
+      setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleCategoryChange = (value: string) => {
@@ -26,7 +33,9 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       ? selectedCategories.filter((category) => category !== value)
       : [...selectedCategories, value];
     setSelectedCategories(newSelectedCategories);
+
     onCategoryChange(newSelectedCategories); 
+
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -36,7 +45,11 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
     );
     setSelectedCategories(newSelectedCategories);
     onCategoryChange(newSelectedCategories); 
+
     setIsDropdownOpen(false);
+
+    delletedCategories = true;
+
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

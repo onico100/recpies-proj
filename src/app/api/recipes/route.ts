@@ -17,18 +17,16 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-
-    const client = await connectDatabase();
-    const newRecipe = await req.json()
-    try {
-        const result = await insertDocument(client, 'recipes', newRecipe);
-        client.close();
-        return NextResponse.json(result, { status: 201 });
-    } catch (error) {
-        client.close();
-        return NextResponse.json({ error: 'Failed to add recipe' }, { status: 500 });
-    }
-
+  const client = await connectDatabase();
+  const newRecipe = await req.json()
+  try {
+    const result = await insertDocument(client, 'recipes', newRecipe);
+    client.close();
+    return NextResponse.json(result, { status: 201 });
+  } catch (error) {
+    client.close();
+    return NextResponse.json({ error: 'Failed to add recipe' }, { status: 500 });
+  }
 }
 
 export async function DELETE(request: Request) {
@@ -45,11 +43,9 @@ export async function DELETE(request: Request) {
     const result = await db
       .collection("recipes")
       .deleteOne({ _id: new ObjectId(id) });
-
     if (result.deletedCount === 0) {
       return NextResponse.json({ message: "No recipe found with this ID" });
     }
-
     return NextResponse.json({ message: "recipe deleted successfully" });
   } catch (error) {
     return NextResponse.json({ message: "Error deleting recipe", error });
@@ -77,14 +73,12 @@ export async function PATCH(req: Request) {
     const result = await db
       .collection("recipes")
       .updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
-
     if (result.modifiedCount === 0) {
       return NextResponse.json(
         { message: "No recipe found with this ID or no changes made" },
         { status: 404 }
       );
     }
-
     return NextResponse.json({ message: "Recipe updated successfully" });
   } catch (error) {
     return NextResponse.json(
