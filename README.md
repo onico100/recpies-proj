@@ -1,6 +1,6 @@
 # Recipes App
 
-This is a Next.js application for managing recipes, where users can add, view, delete, and categorize recipes. It allows users to search for recipes by name and filter them by category.also they can mark their favorites recipes.
+This is a Next.js application for managing recipes, where users can add, view, delete, categorize, and mark recipes as favorites. Users can also search for recipes by name and filter them by category.
 
 ## Installation
 
@@ -65,11 +65,11 @@ This is a Next.js application for managing recipes, where users can add, view, d
 
 ## Technologies Used
 
-- **Frontend:**: Next.js.(using ts)
-- **Backend:** Node.js with Axios and Express(using next back end).
+- **Frontend:**: Next.js with TypeScript.
+- **Backend:** Node.js (using Next.js API routes).
 - **Database:** MongoDB for data storage.
 - **Styling:** CSS
 
 ## App Screenshots
 
--view the app running here https://recpies-proj.vercel.app/
+- live Demo: View the app running here: https://recipes-proj.vercel.app/
