@@ -8,18 +8,14 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 
 interface NavBarProps {
   onSearch: (query: string) => void;
-  onCategoryChange: (categories: string[]) => void; // New prop for category change
+  onCategoryChange: (categories: string[]) => void; 
 }
 
 export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { categories, fetchCategories } = useCategoriesStore();
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+  const { categories, setCategories } = useCategoriesStore();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -30,7 +26,7 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       ? selectedCategories.filter((category) => category !== value)
       : [...selectedCategories, value];
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
+    onCategoryChange(newSelectedCategories); 
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -39,7 +35,7 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       (category) => category !== value
     );
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
+    onCategoryChange(newSelectedCategories); 
     setIsDropdownOpen(false);
   };
 
