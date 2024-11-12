@@ -11,11 +11,11 @@ export default function Home() {
     <div>
       <NavBar
         onSearch={setSearchQuery}
-        onCategoryChange={setSelectedCategories} // Pass category change handler
+        onCategoryChange={setSelectedCategories} 
       />
       <GridRecipes
         searchQuery={searchQuery}
-        selectedCategories={selectedCategories} // Pass selected categories
+        selectedCategories={selectedCategories} 
       />
     </div>
   );

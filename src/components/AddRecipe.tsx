@@ -45,10 +45,14 @@ const AddRecipe = () => {
   const [ingredientList, setIngredientList] = useState<string[]>([]);
 
   const onSubmit = (data: RecipeFormValues) => {
-    let recipe = { recipe_name: data.recipe_name, category: data.category, instructions: data.instructions, url_image: data.url_image, ingredients: data.ingredients }
-
+    let recipe = {
+      recipe_name: data.recipe_name,
+      category: data.category,
+      instructions: data.instructions,
+      url_image: data.url_image,
+      ingredients: data.ingredients
+    }
     addRecipe(recipe)
-
     reset();
     setIngredientList([]);
     router.push("/");
@@ -66,7 +70,7 @@ const AddRecipe = () => {
     <div>
       <Link href="/" className={styles.backLink}>
         <FaChevronLeft />
-          Back
+        Back
       </Link>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +85,6 @@ const AddRecipe = () => {
             </p>
           )}
         </div>
-
         <div className={styles["form-group"]}>
           <label>Category</label>
           <select {...register("category")}>
@@ -95,7 +98,6 @@ const AddRecipe = () => {
             <p className={styles["error-message"]}>{errors.category.message}</p>
           )}
         </div>
-
         <div className={styles["form-group"]}>
           <label>Instructions</label>
           <textarea {...register("instructions")} />
@@ -105,7 +107,6 @@ const AddRecipe = () => {
             </p>
           )}
         </div>
-
         <div className={styles["form-group"]}>
           <label>Image URL</label>
           <input type="text" {...register("url_image")} />
@@ -113,22 +114,21 @@ const AddRecipe = () => {
             <p className={styles["error-message"]}>{errors.url_image.message}</p>
           )}
         </div>
-
         <div className={styles["form-group"]}>
           <label>Ingredients</label>
           <p>Press  '+' for adding</p>
           <div className={styles.addIngredients}>
-          <input
-            type="text"
-            placeholder="Add ingredient"
-            value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}
-          />
-          <button type="button" onClick={handleAddIngredient}>
-            +
-          </button>
+            <input
+              type="text"
+              placeholder="Add ingredient"
+              value={ingredient}
+              onChange={(e) => setIngredient(e.target.value)}
+            />
+            <button type="button" onClick={handleAddIngredient}>
+              +
+            </button>
           </div>
-          <br/>
+          <br />
           <ul className={styles["ingredient-list"]}>
             {ingredientList.map((ing, index) => (
               <li key={index}>{ing}</li>
@@ -140,7 +140,6 @@ const AddRecipe = () => {
             </p>
           )}
         </div>
-
         <button type="submit">Submit</button>
       </form>
     </div>

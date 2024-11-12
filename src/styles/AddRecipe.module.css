@@ -3,10 +3,10 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 30px;
-  background-color: #f5f5f5; /* אפור בהיר */
+  background-color: #f5f5f5;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  color: #333333; /* טקסט כהה */
+  color: #333333;
   font-family: 'Playfair Display', serif;
 }
 
@@ -18,32 +18,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px; /* רווח בין תיבת הטקסט לכפתור */
+  gap: 10px;
 }
 
 .addIngredients input[type="text"] {
-  flex: 1; /* תופס את כל רוחב המיכל */
+  flex: 1;
   padding: 12px 15px;
   border: 1px solid #b5b5b5;
   border-radius: 8px;
   font-size: 1em;
-  color: #333333; /* טקסט כהה */
-  background-color: #ffffff; /* לבן */
+  color: #333333;
+  background-color: #ffffff;
   font-family: 'Playfair Display', serif;
   transition: border-color 0.3s;
 }
 
 .addIngredients input[type="text"]:focus {
-  border-color: #b63b35; /* צבע לחיצה כהה */
+  border-color: #b63b35;
   outline: none;
 }
 
 .addIngredients button {
-  padding: 12px 15px; /* התאמה לגובה של תיבת הטקסט */
+  padding: 12px 15px;
   font-size: 1.1em;
   border: none;
   border-radius: 8px;
-  background-color: #b63b35; /* צבע הכפתור */
+  background-color: #b63b35;
   color: white;
   cursor: pointer;
   font-family: 'Lobster', cursive;
@@ -51,7 +51,7 @@
 }
 
 .addIngredients button:hover {
-  background-color: #8b3631; /* כהה יותר לכפתור */
+  background-color: #8b3631;
   transform: scale(1.02);
 }
 
@@ -59,29 +59,29 @@
   display: block;
   font-weight: bold;
   font-size: 1.1em;
-  color: #333333; /* שחור כהה */
+  color: #333333;
   margin-bottom: 8px;
   font-family: 'Lobster', cursive;
 }
 
-.form-container textarea, 
-.form-container input[type="text"], 
+.form-container textarea,
+.form-container input[type="text"],
 .form-container select {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid #b5b5b5;
   border-radius: 8px;
   font-size: 1em;
-  color: #333333; /* טקסט כהה */
-  background-color: #ffffff; /* לבן */
+  color: #333333;
+  background-color: #ffffff;
   font-family: 'Playfair Display', serif;
   transition: border-color 0.3s;
 }
 
-.form-container textarea:focus, 
-.form-container input[type="text"]:focus, 
+.form-container textarea:focus,
+.form-container input[type="text"]:focus,
 .form-container select:focus {
-  border-color: #b63b35; /* צבע לחיצה כהה */
+  border-color: #b63b35;
   outline: none;
 }
 
@@ -96,7 +96,7 @@
   font-size: 1.1em;
   border: none;
   border-radius: 8px;
-  background-color: #b63b35; 
+  background-color: #b63b35;
   color: white;
   cursor: pointer;
   font-family: 'Lobster', cursive;
@@ -109,7 +109,7 @@
 }
 
 .error-message {
-  color: #b63b35; 
+  color: #b63b35;
   font-size: 0.9em;
   margin-top: 8px;
 }
@@ -118,13 +118,13 @@
   list-style-type: disc;
   padding-left: 20px;
   margin-top: 10px;
-  color: #333333; 
+  color: #333333;
 }
 
 .recipe-data {
   margin-top: 25px;
   padding: 20px;
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -151,5 +151,5 @@
 }
 
 .backLink:hover {
-  color: #8b3631; /* כהה יותר לחרדלי */
+  color: #8b3631;
 }

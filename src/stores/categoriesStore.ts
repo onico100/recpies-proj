@@ -1,9 +1,8 @@
-// src/stores/categoriesStore.ts
 import { create } from 'zustand';
 import { getAllCategories } from '@/services/categoriesService';
 
 type Category = {
-    _id: string;
+  _id: string;
   category_name: string;
 };
 

@@ -1,11 +1,11 @@
-  .navbar {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #333333;
     padding: 15px 20px;
     color: white;
-    font-family: 'Playfair Display', serif; 
+    font-family: 'Playfair Display', serif;
 }
 
 .title {
@@ -21,51 +21,48 @@
     align-items: center;
 }
 
-
-  
-  .dropdown {
+.dropdown {
     position: relative;
     display: inline-block;
     margin-right: 10px;
     color: black;
-  }
-  
-  .select {
+}
+
+.select {
     padding: 5px;
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
     background-color: white;
-    cursor: pointer; 
+    cursor: pointer;
     width: auto;
     min-width: 200px;
     display: flex;
-    flex-wrap: wrap; 
-    align-items: center; 
-  }
-  
-  .selectedCategories {
-    display: flex;
-    flex-wrap: wrap; 
-  }
-  
+    flex-wrap: wrap;
+    align-items: center;
+}
 
-  .searchInput {
+.selectedCategories {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.searchInput {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     color: black;
-  }
-  
-  .addRecipeButton {
-    background-color: #b63b35; /* חרדלי */
+}
+
+.addRecipeButton {
+    background-color: #b63b35;
     color: white;
     border: none;
     padding: 5px 15px;
     cursor: pointer;
     border-radius: 4px;
-  }
-  
-  .dropdownMenu {
+}
+
+.dropdownMenu {
     position: absolute;
     background-color: white;
     border: 1px solid #ccc;
@@ -73,35 +70,33 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /* z-index: 1; */
-  }
-  
-  .dropdownMenu li {
+}
+
+.dropdownMenu li {
     padding: 8px 10px;
     cursor: pointer;
-  }
-  
-  .dropdownMenu li:hover {
-    background-color: #898585; /* אפור בהיר */
+}
+
+.dropdownMenu li:hover {
+    background-color: #898585;
     color: white;
-  }
-  
-  .categoryTag {
-    background-color: #f5f5f5; /* אפור בהיר */
-    border-radius: 4px; 
-    margin-right: 4px; 
+}
+
+.categoryTag {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin-right: 4px;
     padding: 2px;
-    display: flex; 
-    align-items: center; 
-  }
-  
-  .removeButton {
+    display: flex;
+    align-items: center;
+}
+
+.removeButton {
     background: none;
     border: none;
-    color: #b63b35; /* חרדלי */
+    color: #b63b35;
     cursor: pointer;
     margin-left: 5px;
     font-weight: bold;
     font-size: 16px;
-  }
-  
+}
