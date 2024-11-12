@@ -130,12 +130,8 @@ export default function GridRecipes({
   return (
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
-        <button
-          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
-            }`}
-          onClick={() => setShowFavorites(false)}
-        >
-          All Recipes
+        <button className={`${styles.button} ${!showFavorites ? styles.activeButton : "" }`}
+          onClick={() => setShowFavorites(false)} > All Recipes
         </button>
         <button
           className={`${styles.button} ${showFavorites ? styles.activeButton : ""
