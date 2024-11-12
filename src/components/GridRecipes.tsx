@@ -13,19 +13,14 @@ interface GridRecipesProps {
   selectedCategories: string[];
 }
 
-export default function GridRecipes({
-  searchQuery,
-  selectedCategories,
-}: GridRecipesProps) {
+export default function GridRecipes({searchQuery,selectedCategories,}: GridRecipesProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
-
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
-
   const { categories, setCategories } = useCategoriesStore();
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -46,9 +41,7 @@ export default function GridRecipes({
 
   const handleToggleFavorite = (recipeId: string) => {
     setFavoriteRecipes((prev) => {
-      const updatedFavorites = prev.includes(recipeId)
-        ? prev.filter((id) => id !== recipeId)
-        : [...prev, recipeId];
+      const updatedFavorites = prev.includes(recipeId) ? prev.filter((id) => id !== recipeId) : [...prev, recipeId];
       saveToLocalStorage(updatedFavorites);
       return updatedFavorites;
     });
@@ -61,7 +54,8 @@ export default function GridRecipes({
     try {
       const category = categories.find((cat) => cat._id === category_id);
       return category ? category.category_name : "Unknown category";
-    } catch (err) {
+    } 
+    catch (err) {
       console.error("Error: ", err);
       return "Error";
     }
@@ -88,40 +82,25 @@ export default function GridRecipes({
 
   const filteredRecipes = recipes.filter((recipe) => {
     const matchesFavorites = !showFavorites || isRecipeFavorite(recipe._id);
-    const matchesSearch = recipe.recipe_name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(getCategoryNameById(recipe.categoryId));
+    const matchesSearch = recipe.recipe_name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =selectedCategories.length === 0 || selectedCategories.includes(getCategoryNameById(recipe.categoryId));
     return matchesFavorites && matchesSearch && matchesCategory;
   });
 
   const loadMoreRecipes = () => {
     setVisibleCount((prevCount) => {
       const newCount = prevCount + 4;
-      console.log("Current visible count:", newCount);
       return newCount;
     });
   };
 
   useEffect(() => {
     if (visibleCount >= filteredRecipes.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        console.log("Observer entry:", entries[0].isIntersecting);
-        if (entries[0].isIntersecting) {
-          loadMoreRecipes();
-        }
-      },
+    const observer = new IntersectionObserver((entries) =>
+      {if (entries[0].isIntersecting) {loadMoreRecipes(); }},
       { threshold: 0.5 }
     );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
+    if (observerRef.current) {observer.observe(observerRef.current); }
     return () => observer.disconnect();
   }, [visibleCount, filteredRecipes.length]);
 
@@ -131,12 +110,7 @@ export default function GridRecipes({
         <button className={`${styles.button} ${!showFavorites ? styles.activeButton : "" }`}
           onClick={() => setShowFavorites(false)} > All Recipes
         </button>
-        <button
-          className={`${styles.button} ${
-            showFavorites ? styles.activeButton : ""
-          }`}
-          onClick={() => setShowFavorites(true)}
-        >
+        <button className={`${styles.button} ${ showFavorites ? styles.activeButton : ""}`} onClick={() => setShowFavorites(true) >
           <div className={styles.favTitle}>
             <AiFillStar className={styles.starIcon} /> Favorites{" "}
             <AiFillStar className={styles.starIcon} />
@@ -162,10 +136,7 @@ export default function GridRecipes({
           <RecipeDetails
             isOpen={isSidebarOpen}
             onClose={handleCloseSidebar}
-            recipe={{
-              ...selectedRecipe,
-              categoryName: getCategoryNameById(selectedRecipe.categoryId),
-            }}
+            recipe={{...selectedRecipe,categoryName: getCategoryNameById(selectedRecipe.categoryId),}}
             isFavorite={isRecipeFavorite(selectedRecipe._id)}
             onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)}
           />
@@ -173,10 +144,7 @@ export default function GridRecipes({
       </div>
 
       {visibleCount < filteredRecipes.length && (
-        <div
-          ref={observerRef}
-          style={{ height: "50px", backgroundColor: "transparent" }}
-        >
+        <div ref={observerRef} style={{ height: "50px", backgroundColor: "transparent" }}>
           Loading recipes...
         </div>
       )}
