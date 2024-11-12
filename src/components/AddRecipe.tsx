@@ -1,33 +1,19 @@
 "use client";
 import { useState } from "react";
-import { z } from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/AddRecipe.module.css";
 import { addRecipe } from "@/services/recipesService";
-import { FaChevronLeft } from 'react-icons/fa';
+import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
+import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
 
 const { categories } = useCategoriesStore.getState();
-let categoriesNames = categories.map(category => category.category_name);
+let categoriesNames = categories.map((category) => category.category_name);
 const categoriesList = ["Choose", ...categoriesNames];
-
-const recipeSchema = z.object({
-  recipe_name: z
-    .string()
-    .regex(/^[a-zA-Z\s]+$/, "Name must contain only letters")
-    .min(1, "Name is required"),
-  category: z.string().min(1, "Category is required"),
-  instructions: z.string().min(1, "Instructions are required"),
-  url_image: z.string().url("Invalid URL format"),
-  ingredients: z
-    .array(z.string())
-    .min(1, "At least one ingredient is required"),
-});
-
-type RecipeFormValues = z.infer<typeof recipeSchema>;
 
 const AddRecipe = () => {
   const router = useRouter();
@@ -50,9 +36,9 @@ const AddRecipe = () => {
       category: data.category,
       instructions: data.instructions,
       url_image: data.url_image,
-      ingredients: data.ingredients
-    }
-    addRecipe(recipe)
+      ingredients: data.ingredients,
+    };
+    addRecipe(recipe);
     reset();
     setIngredientList([]);
     router.push("/");
@@ -111,12 +97,14 @@ const AddRecipe = () => {
           <label>Image URL</label>
           <input type="text" {...register("url_image")} />
           {errors.url_image && (
-            <p className={styles["error-message"]}>{errors.url_image.message}</p>
+            <p className={styles["error-message"]}>
+              {errors.url_image.message}
+            </p>
           )}
         </div>
         <div className={styles["form-group"]}>
           <label>Ingredients</label>
-          <p>Press  '+' for adding</p>
+          <p>Press '+' for adding</p>
           <div className={styles.addIngredients}>
             <input
               type="text"
