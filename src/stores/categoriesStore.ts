@@ -6,13 +6,13 @@ export type Category = {
 };
 
 type CategoriesStore = {
-  categories: Category[]; 
-  setCategories: (categories: Category[]) => void; 
+  categories: Category[];
+  setCategories: (categories: Category[]) => void;
 };
 
 export const useCategoriesStore = create<CategoriesStore>((set) => ({
   categories: [],
-  setCategories: (categories) => set({ categories }), 
+  setCategories: (categories) => set({ categories }),
 }));
 
 

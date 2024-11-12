@@ -1,5 +1,4 @@
 "use server";
-
 import { NextResponse } from "next/server";
 import { getAllDocuments, connectDatabase } from "@/services/mongo";
 

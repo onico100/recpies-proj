@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import styles from "@/styles/RecipeDetails.module.css";
 
