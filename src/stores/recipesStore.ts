@@ -10,16 +10,13 @@ export type Recipe = {
   ingredients: string[];
 };
 
-type RecipesStore = {
-  recipes: Recipe[];
-  fetchRecipes: () => Promise<void>;
-};
+ export type RecipesStore = {
+    recipes: Recipe[];
+    setRecipes: (recipes:Recipe[]) => void;
+  };
 
-export const useRecipesStore = create<RecipesStore>((set) => ({
-  recipes: [],
-  fetchRecipes: async () => {
-    const recipesData = await getAllRecipes();
-    set({ recipes: recipesData });
-    console.log(recipesData);
-  },
-}));
+  export const useRecipesStore= create<RecipesStore>((set) => ({
+    recipes: [],
+   setRecipes:(recipes)=>set({recipes})
+  }));
+

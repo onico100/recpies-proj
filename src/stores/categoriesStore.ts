@@ -1,20 +1,19 @@
 import { create } from 'zustand';
-import { getAllCategories } from '@/services/categoriesService';
 
-type Category = {
+export type Category = {
+
   _id: string;
   category_name: string;
 };
 
 type CategoriesStore = {
-  categories: Category[];
-  fetchCategories: () => Promise<void>;
+  categories: Category[]; 
+  setCategories: (categories: Category[]) => void; 
 };
 
 export const useCategoriesStore = create<CategoriesStore>((set) => ({
   categories: [],
-  fetchCategories: async () => {
-    const categoriesData = await getAllCategories();
-    set({ categories: categoriesData });
-  },
+  setCategories: (categories) => set({ categories }), 
 }));
+
+

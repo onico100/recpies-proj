@@ -20,15 +20,14 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-  const { categories, fetchCategories } = useCategoriesStore();
-  const { recipes, fetchRecipes } = useRecipesStore();
+
+  const { categories, setCategories } = useCategoriesStore();
+  const { recipes, setRecipes } = useRecipesStore();
 
   useEffect(() => {
-    fetchCategories();
-    fetchRecipes();
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
-  }, [fetchCategories, fetchRecipes]);
+  }, []);
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -67,7 +66,7 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
   const handleDeleteClick = async (recipeId: string) => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {
       await deleteRecipe(recipeId);
-      fetchRecipes();
+      setRecipes(recipes.filter(recipe => recipe._id!==recipeId))
     }
   };
 
