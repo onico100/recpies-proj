@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
 import RecipeDetails from "./RecipeDetails";
@@ -9,20 +8,29 @@ import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import ConfirmModal from "./ConfirmModal";
 
 interface GridRecipesProps {
   searchQuery: string;
   selectedCategories: string[];
 }
 
-export default function GridRecipes({ searchQuery, selectedCategories, }: GridRecipesProps) {
+export default function GridRecipes({
+  searchQuery,
+  selectedCategories,
+}: GridRecipesProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
   const { categories, setCategories } = useCategoriesStore();
   const { recipes, setRecipes } = useRecipesStore();
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let favorits = getFromLocalStorage() || [];
@@ -31,7 +39,6 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-
     setIsSidebarOpen(true);
   };
 
@@ -55,7 +62,6 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
-
       return category ? category.category_name : "Unknown category";
     } catch (err) {
       console.error("Error: ", err);
@@ -63,11 +69,23 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
     }
   };
 
-  const handleDeleteClick = async (recipeId: string) => {
-    if (window.confirm("Are you sure you want to delete this recipe?")) {
-      await deleteRecipe(recipeId);
-      setRecipes(recipes.filter(recipe => recipe._id!==recipeId))
+  const handleDeleteClick = (recipeId: string) => {
+    setSelectedRecipeId(recipeId);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedRecipeId) {
+      await deleteRecipe(selectedRecipeId);
+      setRecipes(recipes.filter((recipe) => recipe._id !== selectedRecipeId));
+      setSelectedRecipeId(null);
+      setIsConfirmOpen(false);
     }
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
+    setSelectedRecipeId(null);
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
@@ -81,19 +99,74 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
     return matchesFavorites && matchesSearch && matchesCategory;
   });
 
+  const loadMoreRecipes = () => {
+    setVisibleCount((prevCount) => {
+      const newCount = prevCount + 4;
+      console.log("Current visible count:", newCount);
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    if (visibleCount >= filteredRecipes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        console.log("Observer entry:", entries[0].isIntersecting);
+        if (entries[0].isIntersecting) {
+          loadMoreRecipes();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleCount, filteredRecipes.length]);
+
+  // const loadMoreRecipes = () => {
+  //   setVisibleCount((prevCount) => {
+  //     console.log("Current visible count:", prevCount);
+  //     return prevCount + 4;
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       console.log("Observer entry:", entries[0].isIntersecting);
+  //       if (entries[0].isIntersecting) {
+  //         loadMoreRecipes();
+  //       }
+  //     },
+  //     { threshold: 1.0 }
+  //   );
+
+  //   if (observerRef.current) {
+  //     observer.observe(observerRef.current);
+  //   }
+
+  //   return () => observer.disconnect();
+  // }, [visibleCount]);
+
   return (
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            !showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(false)}
         >
           All Recipes
         </button>
         <button
-          className={`${styles.button} ${showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
@@ -103,7 +176,7 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
         </button>
       </div>
       <div className={styles.grid}>
-        {filteredRecipes?.map((recipe) => (
+        {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
             url_image={recipe.url_image}
@@ -116,6 +189,7 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
             onDelete={() => handleDeleteClick(recipe._id)}
           />
         ))}
+
         {selectedRecipe && (
           <RecipeDetails
             isOpen={isSidebarOpen}
@@ -129,6 +203,22 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
           />
         )}
       </div>
+
+      {visibleCount < filteredRecipes.length && (
+        <div
+          ref={observerRef}
+          style={{ height: "50px", backgroundColor: "transparent" }}
+        >
+          Loading recipes...
+        </div>
+      )}
+      {isConfirmOpen && (
+        <ConfirmModal
+          message="Are you sure you want to delete this recipe?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 }

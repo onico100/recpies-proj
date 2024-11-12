@@ -8,10 +8,13 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
   margin-left: 8%;
+  margin-right: 8%;
   font-family: "Lobster", cursive;
+  margin-bottom: 14%;
 }
 
 .buttonContainer {
+  
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
