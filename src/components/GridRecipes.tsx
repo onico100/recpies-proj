@@ -6,7 +6,7 @@ import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
-import {ConfirmModal, RecipeDetails, RecipeCard } from './';
+import { ConfirmModal, RecipeDetails, RecipeCard } from "./";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -128,10 +128,21 @@ export default function GridRecipes({
   return (
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
-        <button className={`${styles.button} ${!showFavorites ? styles.activeButton : "" }`}
-          onClick={() => setShowFavorites(false)} > All Recipes
+        <button
+          className={`${styles.button} ${
+            !showFavorites ? styles.activeButton : ""
+          }`}
+          onClick={() => setShowFavorites(false)}
+        >
+          {" "}
+          All Recipes
         </button>
-        <button className={`${styles.button} ${ showFavorites ? styles.activeButton : ""}`} onClick={() => setShowFavorites(true) }>
+        <button
+          className={`${styles.button} ${
+            showFavorites ? styles.activeButton : ""
+          }`}
+          onClick={() => setShowFavorites(true)}
+        >
           <div className={styles.favTitle}>
             <AiFillStar className={styles.starIcon} /> Favorites{" "}
             <AiFillStar className={styles.starIcon} />
@@ -142,10 +153,8 @@ export default function GridRecipes({
         {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
-            url_image={recipe.url_image}
-            recipe_name={recipe.recipe_name}
-            category_name={getCategoryNameById(recipe.categoryId)}
-            instructions={recipe.instructions}
+            recipe={recipe}
+            getCategory={getCategoryNameById}
             isFavorite={isRecipeFavorite(recipe._id)}
             onToggleFavorite={() => handleToggleFavorite(recipe._id)}
             onReadMore={() => handleReadMoreClick(recipe)}
@@ -168,10 +177,7 @@ export default function GridRecipes({
       </div>
 
       {visibleCount < filteredRecipes.length && (
-        <div
-          ref={observerRef}
-          style={{ height: "50px", backgroundColor: "transparent" }}
-        >
+        <div ref={observerRef}>
           Loading recipes...
         </div>
       )}
