@@ -4,7 +4,7 @@ import styles from "@/styles/GridRecipes.module.css";
 import RecipeDetails from "./RecipeDetails";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
-import { Recipe } from "@/stores/recipesStore";
+import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
@@ -131,15 +131,17 @@ export default function GridRecipes({
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            !showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(false)}
         >
           All Recipes
         </button>
         <button
-          className={`${styles.button} ${showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
