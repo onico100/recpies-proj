@@ -112,11 +112,11 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
         </button>
         <button className={`${styles.button} ${ showFavorites ? styles.activeButton : ""}`} onClick={() => setShowFavorites(true) >
           <div className={styles.favTitle}>
-            <AiFillStar className={styles.starIcon} /> Favorites{" "}
-            <AiFillStar className={styles.starIcon} />
+            <AiFillStar className={styles.starIcon} /> Favorites{" "}<AiFillStar className={styles.starIcon} />
           </div>
         </button>
       </div>
+
       <div className={styles.grid}>
         {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
@@ -131,7 +131,6 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
             onDelete={() => handleDeleteClick(recipe._id)}
           />
         ))}
-
         {selectedRecipe && (
           <RecipeDetails
             isOpen={isSidebarOpen}
