@@ -15,9 +15,8 @@ type RecipeDetailsProps = {
     instructions: string;
     ingredients: string[];
   };
-  isFavorite: boolean; 
-  onToggleFavorite: () => void; 
-
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 };
 
 export default function RecipeDetails({
@@ -35,7 +34,7 @@ export default function RecipeDetails({
       <div className={styles.popup}>
         <button className={styles.closeButton} onClick={onClose}>&times;</button>
         <div className={styles.content}>
-          
+
           <div className={styles.info}>
             <h2 className={styles.name}>{recipe.recipe_name}</h2>
             <div className={styles.categoryContainer}>
