@@ -2,17 +2,17 @@
 import React from "react";
 import styles from "@/styles/RecipeCard.module.css";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
-import { FaTrash } from 'react-icons/fa'; 
+import { FaTrash } from 'react-icons/fa';
 
 type RecipeCardProps = {
   url_image: string;
   recipe_name: string;
-  category_name:  string;
+  category_name: string;
   instructions: string;
-  isFavorite: boolean; 
-  onToggleFavorite: () => void; 
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
   onReadMore: () => void;
-  onDelete: () => void; 
+  onDelete: () => void;
 };
 
 const RecipeCard: React.FC<RecipeCardProps> = ({
@@ -50,8 +50,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       <div className={styles.divButtons}><button onClick={onReadMore} className={styles.readMoreButton}>
         Read More
       </button>
-      <button onClick={onDelete} className={styles.deleteButton}>
-          <FaTrash /> 
+        <button onClick={onDelete} className={styles.deleteButton}>
+          <FaTrash />
         </button></div>
     </div>
   );
