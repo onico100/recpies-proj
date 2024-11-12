@@ -30,9 +30,8 @@ export default function GridRecipes({
   useEffect(() => {
     fetchCategories();
     fetchRecipes();
-    let favorits=getFromLocalStorage() ||[]
-    setFavoriteRecipes(favorits)
-
+    let favorits = getFromLocalStorage() || [];
+    setFavoriteRecipes(favorits);
   }, [fetchCategories, fetchRecipes]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
@@ -50,7 +49,7 @@ export default function GridRecipes({
       const updatedFavorites = prev.includes(recipeId)
         ? prev.filter((id) => id !== recipeId)
         : [...prev, recipeId];
-      
+
       saveToLocalStorage(updatedFavorites);
       return updatedFavorites;
     });
@@ -89,7 +88,7 @@ export default function GridRecipes({
   });
 
   return (
-    <div>
+    <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
           className={`${styles.button} ${
@@ -105,7 +104,10 @@ export default function GridRecipes({
           }`}
           onClick={() => setShowFavorites(true)}
         >
-          <div className={styles.favTitle}><AiFillStar className={styles.starIcon} />{" "}Favorites{" "}<AiFillStar className={styles.starIcon} /></div>
+          <div className={styles.favTitle}>
+            <AiFillStar className={styles.starIcon} /> Favorites{" "}
+            <AiFillStar className={styles.starIcon} />
+          </div>
         </button>
       </div>
 

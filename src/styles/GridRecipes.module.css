@@ -1,21 +1,26 @@
+.allContainer {
+  background-color: #fafafa;
+  color: #333333;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
   margin-left: 8%;
-  font-family: 'Lobster', cursive;
+  font-family: "Lobster", cursive;
 }
 
 .buttonContainer {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
-  font-family: 'Lobster', cursive;
+  font-family: "Lobster", cursive;
 }
 
 .button {
-  background-color: transparent; 
-  color: #333; 
+  background-color: transparent;
+  color: #333;
   border: none;
   padding: 8px 16px;
   text-align: center;
@@ -23,8 +28,8 @@
   font-size: 14px;
   margin: 0 8px;
   cursor: pointer;
-  position: relative; 
-  font-family: 'Lobster', cursive;
+  position: relative;
+  font-family: "Lobster", cursive;
 }
 
 .button:hover {
@@ -33,11 +38,11 @@
 }
 
 .activeButton {
-  color: #333333; 
+  color: #333333;
   border-bottom: 2px solid #333333;
 }
 
-.favTitle{
+.favTitle {
   display: flex;
   justify-content: center;
   align-items: center;
