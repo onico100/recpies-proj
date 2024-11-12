@@ -87,15 +87,44 @@ export default function GridRecipes({
 
   const loadMoreRecipes = () => {
     setVisibleCount((prevCount) => {
-      console.log("Current visible count:", prevCount);
-      return prevCount + 4;
+      const newCount = prevCount + 4;
+      console.log("Current visible count:", newCount);
+      return newCount;
     });
   };
+
+  useEffect(() => {
+    if (visibleCount >= filteredRecipes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        console.log("Observer entry:", entries[0].isIntersecting);
+        if (entries[0].isIntersecting) {
+          loadMoreRecipes();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleCount, filteredRecipes.length]);
+
+  // const loadMoreRecipes = () => {
+  //   setVisibleCount((prevCount) => {
+  //     console.log("Current visible count:", prevCount);
+  //     return prevCount + 4;
+  //   });
+  // };
 
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver(
   //     (entries) => {
+  //       console.log("Observer entry:", entries[0].isIntersecting);
   //       if (entries[0].isIntersecting) {
   //         loadMoreRecipes();
   //       }
@@ -108,24 +137,7 @@ export default function GridRecipes({
   //   }
 
   //   return () => observer.disconnect();
-  // }, [loadMoreRecipes]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMoreRecipes();
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  // }, [visibleCount]);
 
   return (
     <div className={styles.allContainer}>
@@ -174,9 +186,9 @@ export default function GridRecipes({
         )}
       </div>
 
-      {visibleCount < filteredRecipes.length && (
-          <div ref={observerRef} style={{ height: "1px" }}>Loading recipes...</div>
-        )}
+            {visibleCount < filteredRecipes.length && (
+        <div ref={observerRef} style={{ height: "50px", backgroundColor: "transparent" }}>Loading recipes...</div>
+      )}
 
     </div>
   );
