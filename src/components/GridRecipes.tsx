@@ -177,10 +177,7 @@ export default function GridRecipes({
       </div>
 
       {visibleCount < filteredRecipes.length && (
-        <div
-          ref={observerRef}
-          style={{ height: "50px", backgroundColor: "transparent" }}
-        >
+        <div ref={observerRef}>
           Loading recipes...
         </div>
       )}
