@@ -2,13 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
 import RecipeDetails from "./RecipeDetails";
-import { useCategoriesStore } from "@/stores/categoriesStore";
+
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
 import ConfirmModal from "./ConfirmModal";
+import { useCategoriesStore } from "@/stores/categoriesStore";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -28,9 +29,20 @@ export default function GridRecipes({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
-  const { categories, setCategories } = useCategoriesStore();
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { categories, setCategories } = useCategoriesStore();
+
+  const getCategoryNameById = (category_id: string) => {
+    try {
+      const category = categories.find((cat) => cat._id === category_id);
+      return category ? category.category_name : "Unknown category";
+    } catch (err) {
+      console.error("Error: ", err);
+      return "Error";
+    }
+  };
 
   useEffect(() => {
     let favorits = getFromLocalStorage() || [];
@@ -58,16 +70,6 @@ export default function GridRecipes({
 
   const isRecipeFavorite = (recipeId: string) =>
     favoriteRecipes.includes(recipeId);
-
-  const getCategoryNameById = (category_id: string) => {
-    try {
-      const category = categories.find((cat) => cat._id === category_id);
-      return category ? category.category_name : "Unknown category";
-    } catch (err) {
-      console.error("Error: ", err);
-      return "Error";
-    }
-  };
 
   const handleDeleteClick = (recipeId: string) => {
     setSelectedRecipeId(recipeId);
@@ -154,10 +156,8 @@ export default function GridRecipes({
         {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
-            url_image={recipe.url_image}
-            recipe_name={recipe.recipe_name}
-            category_name={getCategoryNameById(recipe.categoryId)}
-            instructions={recipe.instructions}
+            recipe={recipe}
+            getCategoryNameById={getCategoryNameById}
             isFavorite={isRecipeFavorite(recipe._id)}
             onToggleFavorite={() => handleToggleFavorite(recipe._id)}
             onReadMore={() => handleReadMoreClick(recipe)}
