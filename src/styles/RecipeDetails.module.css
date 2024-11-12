@@ -4,32 +4,31 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* שחור כהה עם שקיפות */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
-  }
-  /* RecipeDetails.module.css */
+}
 
 .divider {
     border: none;
-    border-top: 1px solid #b63b35; 
+    border-top: 1px solid #b63b35;
     margin: 25px 0;
-  }
-  
-  .popup {
-    background: #FFFFFF; /* לבן */
+}
+
+.popup {
+    background: #FFFFFF;
     border-radius: 8px;
     padding: 40px;
     max-width: 500px;
     width: 90%;
     position: relative;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-height: 80vh; 
-    overflow-y: auto; 
-    margin-top: 50px; 
-    margin-bottom: 50px; 
+    max-height: 80vh;
+    overflow-y: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .closeButton {
@@ -40,62 +39,61 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #b63b35; /* חרדלי */
-  }
-  
-  .content {
+    color: #b63b35;
+}
+
+.content {
     display: flex;
     word-wrap: break-word;
-    overflow-wrap: break-word; 
-  }
-  
-  .name {
+    overflow-wrap: break-word;
+}
+
+.name {
     font-size: 1.5em;
     margin: 0;
-  }
-  
-  .image {
+}
+
+.image {
     width: 150px;
     height: 150px;
     object-fit: cover;
     border-radius: 8px;
     margin-right: 20px;
-  }
-  
-  .info {
+}
+
+.info {
     flex: 1;
-  }
-  
-  .category {
+}
+
+.category {
     font-size: 1.2em;
     margin: 4px 0;
-    color: #b63b35; /* חרדלי */
-  }
-  
-  .ingredientsTitle {
+    color: #b63b35;
+}
+
+.ingredientsTitle {
     font-weight: bold;
     margin: 8px 0 4px;
-  }
-  
-  .ingredientsList {
+}
+
+.ingredientsList {
     list-style-type: disc;
     padding-left: 20px;
     margin: 0;
-  }
-  
-  .instructions {
-    color: #333; /* טקסט כהה */
+}
+
+.instructions {
+    color: #333;
     margin-top: 12px;
-  }
-  
-  .categoryContainer {
+}
+
+.categoryContainer {
     display: flex;
-    align-items: center; 
-  }
-  
-  .starIcon {
-    margin-left: 10px; 
-    cursor: pointer; 
-    color:  #b63b35; /* חרדלי */
-  }
-  
+    align-items: center;
+}
+
+.starIcon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #b63b35;
+}

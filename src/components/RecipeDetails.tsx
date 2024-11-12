@@ -1,4 +1,3 @@
-// RecipeDetails.tsx
 "use client";
 import React, { useState } from "react";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
@@ -58,7 +57,6 @@ export default function RecipeDetails({
         </div>
         <hr className={styles.divider} />
         <p className={styles.instructions}><b>Instructions:</b> {recipe.instructions}</p>
-
       </div>
     </div>
   );

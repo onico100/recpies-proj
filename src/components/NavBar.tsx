@@ -1,4 +1,3 @@
-//..components/NavBar.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,21 +7,25 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 
 interface NavBarProps {
   onSearch: (query: string) => void;
-  onCategoryChange: (categories: string[]) => void; // New prop for category change
+  onCategoryChange: (categories: string[]) => void; 
 }
 
 export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { categories, fetchCategories } = useCategoriesStore();
+  const { categories, setCategories } = useCategoriesStore();
 
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+  let delletedCategories = false;
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    if(delletedCategories)
+    {
+      setIsDropdownOpen(false);
+      delletedCategories = false;
+    }
+    else
+      setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleCategoryChange = (value: string) => {
@@ -30,7 +33,9 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       ? selectedCategories.filter((category) => category !== value)
       : [...selectedCategories, value];
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
+
+    onCategoryChange(newSelectedCategories); 
+
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -39,8 +44,12 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       (category) => category !== value
     );
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
+    onCategoryChange(newSelectedCategories); 
+
     setIsDropdownOpen(false);
+
+    delletedCategories = true;
+
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
