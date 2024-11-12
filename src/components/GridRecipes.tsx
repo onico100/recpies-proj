@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
 import RecipeDetails from "./RecipeDetails";
@@ -23,20 +22,21 @@ export default function GridRecipes({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4); 
 
   const { categories, fetchCategories } = useCategoriesStore();
   const { recipes, fetchRecipes } = useRecipesStore();
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchCategories();
     fetchRecipes();
-    let favorits = getFromLocalStorage() || [];
-    setFavoriteRecipes(favorits);
+    const favorites = getFromLocalStorage() || [];
+    setFavoriteRecipes(favorites);
   }, [fetchCategories, fetchRecipes]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-
     setIsSidebarOpen(true);
   };
 
@@ -49,7 +49,6 @@ export default function GridRecipes({
       const updatedFavorites = prev.includes(recipeId)
         ? prev.filter((id) => id !== recipeId)
         : [...prev, recipeId];
-
       saveToLocalStorage(updatedFavorites);
       return updatedFavorites;
     });
@@ -61,7 +60,6 @@ export default function GridRecipes({
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
-
       return category ? category.category_name : "Unknown category";
     } catch (err) {
       console.error("Error: ", err);
@@ -87,23 +85,57 @@ export default function GridRecipes({
     return matchesFavorites && matchesSearch && matchesCategory;
   });
 
+  const loadMoreRecipes = () => {
+    setVisibleCount((prevCount) => {
+      console.log("Current visible count:", prevCount);
+      return prevCount + 4;
+    });
+  };
+
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         loadMoreRecipes();
+  //       }
+  //     },
+  //     { threshold: 1.0 }
+  //   );
+
+  //   if (observerRef.current) {
+  //     observer.observe(observerRef.current);
+  //   }
+
+  //   return () => observer.disconnect();
+  // }, [loadMoreRecipes]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreRecipes();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${
-            !showFavorites ? styles.activeButton : ""
-          }`}
-          onClick={() => setShowFavorites(false)}
-        >
-          All Recipes
+          className={`${styles.button} ${!showFavorites ? styles.activeButton : "" }`}
+          onClick={() => setShowFavorites(false)} >All Recipes
         </button>
-        <button
-          className={`${styles.button} ${
-            showFavorites ? styles.activeButton : ""
-          }`}
-          onClick={() => setShowFavorites(true)}
-        >
+        <button className={`${styles.button} ${ showFavorites ? styles.activeButton : "" }`}
+          onClick={() => setShowFavorites(true)} >
           <div className={styles.favTitle}>
             <AiFillStar className={styles.starIcon} /> Favorites{" "}
             <AiFillStar className={styles.starIcon} />
@@ -112,7 +144,7 @@ export default function GridRecipes({
       </div>
 
       <div className={styles.grid}>
-        {filteredRecipes?.map((recipe) => (
+        {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
             url_image={recipe.url_image}
@@ -125,6 +157,8 @@ export default function GridRecipes({
             onDelete={() => handleDeleteClick(recipe._id)}
           />
         ))}
+        
+
 
         {selectedRecipe && (
           <RecipeDetails
@@ -139,6 +173,11 @@ export default function GridRecipes({
           />
         )}
       </div>
+
+      {visibleCount < filteredRecipes.length && (
+          <div ref={observerRef} style={{ height: "1px" }}>Loading recipes...</div>
+        )}
+
     </div>
   );
 }
