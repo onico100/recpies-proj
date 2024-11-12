@@ -1,4 +1,3 @@
-//..components/NavBar.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,7 +7,7 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 
 interface NavBarProps {
   onSearch: (query: string) => void;
-  onCategoryChange: (categories: string[]) => void; // New prop for category change
+  onCategoryChange: (categories: string[]) => void; 
 }
 
 export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
@@ -16,13 +15,20 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { categories, fetchCategories } = useCategoriesStore();
+  let delletedCategories = false;
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    if(delletedCategories)
+    {
+      setIsDropdownOpen(false);
+      delletedCategories = false;
+    }
+    else
+      setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleCategoryChange = (value: string) => {
@@ -30,7 +36,7 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       ? selectedCategories.filter((category) => category !== value)
       : [...selectedCategories, value];
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
+    onCategoryChange(newSelectedCategories);
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -39,8 +45,8 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       (category) => category !== value
     );
     setSelectedCategories(newSelectedCategories);
-    onCategoryChange(newSelectedCategories); // Trigger category change
-    setIsDropdownOpen(false);
+    onCategoryChange(newSelectedCategories); 
+    delletedCategories = true;
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
