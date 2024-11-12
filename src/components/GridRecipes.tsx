@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/GridRecipes.module.css";
 import { useCategoriesStore } from "@/stores/categoriesStore";
@@ -177,9 +179,7 @@ export default function GridRecipes({
       </div>
 
       {visibleCount < filteredRecipes.length && (
-        <div ref={observerRef}>
-          Loading recipes...
-        </div>
+        <div ref={observerRef}>Loading recipes...</div>
       )}
       {isConfirmOpen && (
         <ConfirmModal
