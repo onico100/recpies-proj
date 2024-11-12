@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "@/services/categoriesService";
-import { Category } from "@/stores/categoriesStore";
+import {Category} from "@/types/CategogyTypes";
 import styles from "@/styles/Fetchers.module.css";
 
 const CategoriesFetcher = () => {
