@@ -8,24 +8,29 @@ import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import ConfirmModal from "./ConfirmModal";
 
 interface GridRecipesProps {
   searchQuery: string;
   selectedCategories: string[];
 }
 
-export default function GridRecipes({ searchQuery, selectedCategories, }: GridRecipesProps) {
+export default function GridRecipes({
+  searchQuery,
+  selectedCategories,
+}: GridRecipesProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(4); 
+  const [visibleCount, setVisibleCount] = useState(4);
 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
   const { categories, setCategories } = useCategoriesStore();
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
-
 
   useEffect(() => {
     let favorits = getFromLocalStorage() || [];
@@ -64,11 +69,23 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
     }
   };
 
-  const handleDeleteClick = async (recipeId: string) => {
-    if (window.confirm("Are you sure you want to delete this recipe?")) {
-      await deleteRecipe(recipeId);
-      setRecipes(recipes.filter(recipe => recipe._id!==recipeId))
+  const handleDeleteClick = (recipeId: string) => {
+    setSelectedRecipeId(recipeId);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedRecipeId) {
+      await deleteRecipe(selectedRecipeId);
+      setRecipes(recipes.filter((recipe) => recipe._id !== selectedRecipeId));
+      setSelectedRecipeId(null);
+      setIsConfirmOpen(false);
     }
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
+    setSelectedRecipeId(null);
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
@@ -116,7 +133,6 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
   //     return prevCount + 4;
   //   });
   // };
-
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver(
@@ -173,8 +189,6 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
             onDelete={() => handleDeleteClick(recipe._id)}
           />
         ))}
-        
-
 
         {selectedRecipe && (
           <RecipeDetails
@@ -190,10 +204,21 @@ export default function GridRecipes({ searchQuery, selectedCategories, }: GridRe
         )}
       </div>
 
-            {visibleCount < filteredRecipes.length && (
-        <div ref={observerRef} style={{ height: "50px", backgroundColor: "transparent" }}>Loading recipes...</div>
+      {visibleCount < filteredRecipes.length && (
+        <div
+          ref={observerRef}
+          style={{ height: "50px", backgroundColor: "transparent" }}
+        >
+          Loading recipes...
+        </div>
       )}
-
+      {isConfirmOpen && (
+        <ConfirmModal
+          message="Are you sure you want to delete this recipe?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 }
