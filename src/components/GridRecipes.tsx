@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
-import RecipeDetails from "./RecipeDetails";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
-import ConfirmModal from "./ConfirmModal";
+import {ConfirmModal, RecipeDetails, RecipeCard } from './';
 
 interface GridRecipesProps {
   searchQuery: string;
