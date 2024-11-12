@@ -1,25 +1,22 @@
-// src/components/CategoriesFetcher.tsx
 import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getAllCategories } from '@/services/categoriesService'; 
-import { Category } from '@/stores/categoriesStore'; 
 import { Recipe, useRecipesStore } from '@/stores/recipesStore';
 import { getAllRecipes } from '@/services/recipesService';
 
 const RecipesFetcher = () => {
-  const { setRecipes } = useRecipesStore(); 
+  const { setRecipes } = useRecipesStore();
 
   const { data, error, isLoading } = useQuery<Recipe[], Error>({
     queryKey: ['recipes'],
     queryFn: getAllRecipes,
-    staleTime: 300000, 
+    staleTime: 300000,
   });
 
   useEffect(() => {
     if (data) {
-      setRecipes(data); 
+      setRecipes(data);
     }
-  }, [data, setRecipes]); 
+  }, [data, setRecipes]);
 
   if (isLoading) {
     return <div>Loading recipes...</div>;
@@ -29,7 +26,7 @@ const RecipesFetcher = () => {
     return <div>Error fetching recipes: {error.message}</div>;
   }
 
-  return null; 
+  return null;
 };
 
 export default RecipesFetcher;

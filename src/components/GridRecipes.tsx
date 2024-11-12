@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
 import RecipeDetails from "./RecipeDetails";
@@ -7,7 +7,7 @@ import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 import ConfirmModal from "./ConfirmModal";
 
 interface GridRecipesProps {
@@ -127,46 +127,19 @@ export default function GridRecipes({
     return () => observer.disconnect();
   }, [visibleCount, filteredRecipes.length]);
 
-  // const loadMoreRecipes = () => {
-  //   setVisibleCount((prevCount) => {
-  //     console.log("Current visible count:", prevCount);
-  //     return prevCount + 4;
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       console.log("Observer entry:", entries[0].isIntersecting);
-  //       if (entries[0].isIntersecting) {
-  //         loadMoreRecipes();
-  //       }
-  //     },
-  //     { threshold: 1.0 }
-  //   );
-
-  //   if (observerRef.current) {
-  //     observer.observe(observerRef.current);
-  //   }
-
-  //   return () => observer.disconnect();
-  // }, [visibleCount]);
-
   return (
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${
-            !showFavorites ? styles.activeButton : ""
-          }`}
+          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
+            }`}
           onClick={() => setShowFavorites(false)}
         >
           All Recipes
         </button>
         <button
-          className={`${styles.button} ${
-            showFavorites ? styles.activeButton : ""
-          }`}
+          className={`${styles.button} ${showFavorites ? styles.activeButton : ""
+            }`}
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
