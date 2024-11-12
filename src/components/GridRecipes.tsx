@@ -7,17 +7,18 @@ import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/stores/recipesStore";
 import { deleteRecipe } from "@/services/recipesService";
+import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 interface GridRecipesProps {
   searchQuery: string;
-  selectedCategories: string[]; // New prop for selected categories
+  selectedCategories: string[];
 }
 
 export default function GridRecipes({
   searchQuery,
   selectedCategories,
 }: GridRecipesProps) {
-  const [loading, setLoading] = useState<boolean>(true);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
@@ -29,6 +30,8 @@ export default function GridRecipes({
   useEffect(() => {
     fetchCategories();
     fetchRecipes();
+    let favorits = getFromLocalStorage() || [];
+    setFavoriteRecipes(favorits);
   }, [fetchCategories, fetchRecipes]);
 
   const handleReadMoreClick = (recipe: Recipe) => {
@@ -42,11 +45,14 @@ export default function GridRecipes({
   };
 
   const handleToggleFavorite = (recipeId: string) => {
-    setFavoriteRecipes((prev) =>
-      prev.includes(recipeId)
+    setFavoriteRecipes((prev) => {
+      const updatedFavorites = prev.includes(recipeId)
         ? prev.filter((id) => id !== recipeId)
-        : [...prev, recipeId]
-    );
+        : [...prev, recipeId];
+
+      saveToLocalStorage(updatedFavorites);
+      return updatedFavorites;
+    });
   };
 
   const isRecipeFavorite = (recipeId: string) =>
@@ -82,7 +88,7 @@ export default function GridRecipes({
   });
 
   return (
-    <div>
+    <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
           className={`${styles.button} ${
@@ -98,7 +104,10 @@ export default function GridRecipes({
           }`}
           onClick={() => setShowFavorites(true)}
         >
-          Favorites
+          <div className={styles.favTitle}>
+            <AiFillStar className={styles.starIcon} /> Favorites{" "}
+            <AiFillStar className={styles.starIcon} />
+          </div>
         </button>
       </div>
 
