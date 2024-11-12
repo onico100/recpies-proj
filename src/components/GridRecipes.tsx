@@ -15,24 +15,19 @@ interface GridRecipesProps {
   selectedCategories: string[];
 }
 
-export default function GridRecipes({
-  searchQuery,
-  selectedCategories,
-}: GridRecipesProps) {
+export default function GridRecipes({ searchQuery, selectedCategories, }: GridRecipesProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
-  const { categories, fetchCategories } = useCategoriesStore();
-  const { recipes, fetchRecipes } = useRecipesStore();
+  const { categories, setCategories } = useCategoriesStore();
+  const { recipes, setRecipes } = useRecipesStore();
 
   useEffect(() => {
-    fetchCategories();
-    fetchRecipes();
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
-  }, [fetchCategories, fetchRecipes]);
+  }, []);
 
   const handleReadMoreClick = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -49,7 +44,6 @@ export default function GridRecipes({
       const updatedFavorites = prev.includes(recipeId)
         ? prev.filter((id) => id !== recipeId)
         : [...prev, recipeId];
-
       saveToLocalStorage(updatedFavorites);
       return updatedFavorites;
     });
@@ -72,7 +66,7 @@ export default function GridRecipes({
   const handleDeleteClick = async (recipeId: string) => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {
       await deleteRecipe(recipeId);
-      fetchRecipes();
+      setRecipes(recipes.filter(recipe => recipe._id!==recipeId))
     }
   };
 
@@ -91,17 +85,15 @@ export default function GridRecipes({
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${
-            !showFavorites ? styles.activeButton : ""
-          }`}
+          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
+            }`}
           onClick={() => setShowFavorites(false)}
         >
           All Recipes
         </button>
         <button
-          className={`${styles.button} ${
-            showFavorites ? styles.activeButton : ""
-          }`}
+          className={`${styles.button} ${showFavorites ? styles.activeButton : ""
+            }`}
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
@@ -110,7 +102,6 @@ export default function GridRecipes({
           </div>
         </button>
       </div>
-
       <div className={styles.grid}>
         {filteredRecipes?.map((recipe) => (
           <RecipeCard
@@ -125,7 +116,6 @@ export default function GridRecipes({
             onDelete={() => handleDeleteClick(recipe._id)}
           />
         ))}
-
         {selectedRecipe && (
           <RecipeDetails
             isOpen={isSidebarOpen}
