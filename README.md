@@ -1,38 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-D
+# Recipes App
 
-## Getting Started
+This is a Next.js application for managing recipes, where users can add, view, delete, and categorize recipes. It allows users to search for recipes by name and filter them by category.also they can mark their favorites recipes.
 
-First, run the development server:dydjytdyjyt
-kugug
+## Installation
+
+1. **Clone the repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone https://github.com/onico100/recpies-proj.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencys:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+   cd recpies-proj
+   npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Set up MongoDB:**
 
-## Learn More
+- Make sure you have a MongoDB instance running.
 
-To learn more about Next.js, take a look at the following resources:
+- put your MongoDB connection string in the next.config.mjs file.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run the app:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+   npm run dev
+```
 
-## Deploy on Vercel
+- Open your browser and go to http://localhost:3000.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Usage:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # 1.Adding a Recipe:
+
+   - Click on the "Add Recipe" button.
+   - Fill in the recipe details (name, category, image URL, description).
+   - Submit to add it to the list.
+
+   # 2.Deleting a Recipe:
+
+   - Click the delete (trash) icon on any recipe card to remove it from the list.
+
+   # 3.Filtering by Category:
+
+   - Select a category from the dropdown to filter the recipes..
+
+   # 4.Searching Recipes:
+
+   - Use the search bar to find recipes by name.
+
+   # 5.Favoriting Recipes:
+
+   - Click the star icon on a recipe card to mark it as a favorite.
+
+## Features
+
+- Add Recipe: Add new recipes with name, category, image, and description
+- Delete Recipe: Remove a recipe from the list.
+- Categorize Recipes: Filter recipes by category.
+- Search Recipes: Quickly find recipes by searching their names.
+- Favorite Recipes: Mark recipes as favorites for easy access.
+
+## Technologies Used
+
+- **Frontend:**: Next.js.(using ts)
+- **Backend:** Node.js with Axios and Express(using next back end).
+- **Database:** MongoDB for data storage.
+- **Styling:** CSS
+
+## App Screenshots
+
+-view the app running here https://recpies-proj.vercel.app/
