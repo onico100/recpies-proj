@@ -110,7 +110,7 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
         <button className={`${styles.button} ${!showFavorites ? styles.activeButton : "" }`}
           onClick={() => setShowFavorites(false)} > All Recipes
         </button>
-        <button className={`${styles.button} ${ showFavorites ? styles.activeButton : ""}`} onClick={() => setShowFavorites(true) >
+        <button className={`${styles.button} ${ showFavorites ? styles.activeButton : ""}`} onClick={() => setShowFavorites(true) }>
           <div className={styles.favTitle}>
             <AiFillStar className={styles.starIcon} /> Favorites{" "}
             <AiFillStar className={styles.starIcon} />
