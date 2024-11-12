@@ -1,10 +1,7 @@
 "use client";
-import NavBar from "@/components/NavBar";
-import GridRecipes from "@/components/GridRecipes";
+import {NavBar , GridRecipes, CategoriesFetcher, RecipesFetcher } from'@/components';
 import { useState } from "react";
-import CategoriesFetcher from "@/components/CategoriesFetcher";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import RecipesFetcher from "@/components/RecipesFetcher";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");

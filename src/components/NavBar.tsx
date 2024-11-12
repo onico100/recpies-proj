@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import styles from "@/styles/NavBar.module.css";
@@ -61,10 +60,8 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       <h1 className={styles.title}>Recipes</h1>
       <div className={styles.controlsContainer}>
         <div className={styles.dropdown}>
-          <button className={styles.select} onClick={toggleDropdown}>
-            {selectedCategories.length === 0 ? (
-              "Pick a category..."
-            ) : (
+          <button className={styles.select} onClick={toggleDropdown}>{selectedCategories.length === 0 ? (
+              "Pick a category..." ) : (
               <div className={styles.selectedCategories}>
                 {selectedCategories.map((category) => (
                   <div key={category} className={styles.categoryTag}>
