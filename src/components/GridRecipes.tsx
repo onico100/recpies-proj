@@ -1,22 +1,31 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/GridRecipes.module.css";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import RecipeDetails from "./RecipeDetails";
 
 =======
 import { useCategoriesStore } from "@/stores/categoriesStore";
 >>>>>>> 405bc87b23881b9f8386b2ccddc70b2fc9a1a845
+=======
+import { useCategoriesStore } from "@/stores/categoriesStore";
+>>>>>>> 2c15d2f135b6afaab4c2535d2de8353035583222
 import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { AiFillStar } from "react-icons/ai";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ConfirmModal from "./ConfirmModal";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 =======
 import {RecipeCard, RecipeDetails, ConfirmModal} from './'
 >>>>>>> 405bc87b23881b9f8386b2ccddc70b2fc9a1a845
+=======
+import {RecipeCard, RecipeDetails, ConfirmModal} from './'
+
+>>>>>>> 2c15d2f135b6afaab4c2535d2de8353035583222
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -32,10 +41,16 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
   const { categories, setCategories } = useCategoriesStore();
 >>>>>>> 405bc87b23881b9f8386b2ccddc70b2fc9a1a845
+=======
+
+  const { categories, setCategories } = useCategoriesStore();
+
+>>>>>>> 2c15d2f135b6afaab4c2535d2de8353035583222
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -77,7 +92,11 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
     favoriteRecipes.includes(recipeId);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> 2c15d2f135b6afaab4c2535d2de8353035583222
   const getCategoryNameById = (category_id: string) => {
     try {
       const category = categories.find((cat) => cat._id === category_id);
@@ -89,7 +108,11 @@ export default function GridRecipes({searchQuery,selectedCategories,}: GridRecip
     }
   };
 
+<<<<<<< HEAD
 >>>>>>> 405bc87b23881b9f8386b2ccddc70b2fc9a1a845
+=======
+
+>>>>>>> 2c15d2f135b6afaab4c2535d2de8353035583222
   const handleDeleteClick = (recipeId: string) => {
     setSelectedRecipeId(recipeId);
     setIsConfirmOpen(true);
