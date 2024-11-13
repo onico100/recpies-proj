@@ -70,6 +70,6 @@ This is a Next.js application for managing recipes, where users can add, view, d
 - **Database:** MongoDB for data storage.
 - **Styling:** CSS
 
-## App Screenshots
+## App preview
 
 - live Demo: View the app running here: https://recipes-proj.vercel.app/
