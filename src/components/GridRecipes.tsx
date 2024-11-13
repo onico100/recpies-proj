@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/GridRecipes.module.css";
 import { useCategoriesStore } from "@/stores/categoriesStore";
@@ -8,7 +7,7 @@ import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { IoMdHeart } from "react-icons/io";
-import { ConfirmModal, RecipeDetails, RecipeCard } from "./";
+import { ConfirmModal, RecipeDetails, RecipeCard, RecipesFetcher, CategoriesFetcher } from "./";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -19,6 +18,8 @@ export default function GridRecipes({
   searchQuery,
   selectedCategories,
 }: GridRecipesProps) {
+  console.log("searchQuery: ", searchQuery);
+  console.log("selectedCategories: ", selectedCategories);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
@@ -37,7 +38,14 @@ export default function GridRecipes({
   const recipesPerRow = Math.floor(screenWidth / recipeWidth);
   const [visibleCount, setVisibleCount] = useState(recipesPerRow);
 
+
+
   useEffect(() => {
+      if(visibleCount<=2) loadMoreRecipes();
+  });
+
+  useEffect(() => {
+    if(visibleCount<=2) loadMoreRecipes();
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
     setScreenWidth(window.innerWidth);
@@ -108,16 +116,17 @@ export default function GridRecipes({
   const loadMoreRecipes = () => {
     setVisibleCount((prevCount) => {
       const newCount = prevCount + recipesPerRow;
-      console.log("Current visible count:", newCount);
       return newCount;
     });
   };
+
+
 
   useEffect(() => {
     if (visibleCount >= filteredRecipes.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        if ((entries[0].isIntersecting)) {
           loadMoreRecipes();
         }
       },
@@ -127,9 +136,10 @@ export default function GridRecipes({
       observer.observe(observerRef.current);
     }
     return () => observer.disconnect();
-  }, [visibleCount, filteredRecipes.length]);
+  }, [visibleCount, filteredRecipes.length],);
 
   return (
+    <div>
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
@@ -180,9 +190,10 @@ export default function GridRecipes({
         )}
       </div>
 
-      {visibleCount < filteredRecipes.length && (
+      {
+      visibleCount < filteredRecipes.length && (
         <div ref={observerRef}>Loading recipes...</div>
-      )}
+      )}   
       {isConfirmOpen && (
         <ConfirmModal
           message="Are you sure you want to delete this recipe?"
@@ -190,6 +201,7 @@ export default function GridRecipes({
           onCancel={handleCancel}
         />
       )}
+    </div>
     </div>
   );
 }
