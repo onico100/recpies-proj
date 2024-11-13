@@ -11,11 +11,12 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
 
-const { categories } = useCategoriesStore.getState();
+
+const AddRecipe = () => {
+  const { categories } = useCategoriesStore.getState();
 let categoriesNames = categories.map((category) => category.category_name);
 const categoriesList = ["Choose", ...categoriesNames];
 
-const AddRecipe = () => {
   const router = useRouter();
   const {
     register,
@@ -52,12 +53,13 @@ const AddRecipe = () => {
     }
   };
 
+  
   return (
     <div>
-      <Link href="/" className={styles.backLink}>
+      <button onClick={() => router.back()} className={styles.backLink}>
         <FaChevronLeft />
         Back
-      </Link>
+      </button>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles["form-container"]}

@@ -8,7 +8,9 @@ import { Recipe } from "@/types/RecipeTypes";
 import styles from "@/styles/Fetchers.module.css";
 
 const RecipesFetcher = () => {
-  const { setRecipes } = useRecipesStore();
+  console.log("RecipeFetcher enterd");
+  const { setRecipes} = useRecipesStore();
+
 
   const { data, error, isLoading } = useQuery<Recipe[], Error>({
     queryKey: ["recipes"],
@@ -19,7 +21,9 @@ const RecipesFetcher = () => {
   useEffect(() => {
     if (data) {
       setRecipes(data);
+      console.log("recipes fetched use effect", data);
     }
+    
   }, [data, setRecipes]);
 
   if (isLoading) {
@@ -27,7 +31,7 @@ const RecipesFetcher = () => {
       <div className={styles.loadingOverlayR}>
         <div className={styles.loadingContainer}>
           <div className={styles.spinner}></div>
-          Loading recipes...
+          Loading Recipes...
         </div>
       </div>
     );
@@ -41,3 +45,4 @@ const RecipesFetcher = () => {
 };
 
 export default RecipesFetcher;
+

@@ -9,4 +9,5 @@ export type RecipesStore = {
 export const useRecipesStore = create<RecipesStore>((set) => ({
   recipes: [],
   setRecipes: (recipes) => set({ recipes }),
+  console: console.log("recipes store created"),
 }));

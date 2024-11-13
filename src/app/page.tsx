@@ -13,13 +13,14 @@ export default function Home() {
     <div>
       <QueryClientProvider client={queryClient}>
         <CategoriesFetcher />
-        <RecipesFetcher />
+        <RecipesFetcher/>
         <NavBar
           onSearch={setSearchQuery}
           onCategoryChange={setSelectedCategories}
         />
         <GridRecipes
           searchQuery={searchQuery}
+          
           selectedCategories={selectedCategories}
         />
       </QueryClientProvider>
