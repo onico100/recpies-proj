@@ -23,7 +23,8 @@ export default function GridRecipes({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-  
+  const [screenWidth, setScreenWidth] = useState(0);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
@@ -32,14 +33,14 @@ export default function GridRecipes({
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const recipeWidth = 320;
-  const screenWidth = window.innerWidth;
-  const recipesPerRow = Math.floor(screenWidth / recipeWidth); 
+
+  const recipesPerRow = Math.floor(screenWidth / recipeWidth);
   const [visibleCount, setVisibleCount] = useState(recipesPerRow);
 
-  
   useEffect(() => {
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
+    setScreenWidth(window.innerWidth);
   }, []);
 
   const handleReadMoreClick = (recipe: Recipe) => {
@@ -115,10 +116,16 @@ export default function GridRecipes({
   useEffect(() => {
     if (visibleCount >= filteredRecipes.length) return;
     const observer = new IntersectionObserver(
-      (entries) => {if (entries[0].isIntersecting) {loadMoreRecipes(); }},
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreRecipes();
+        }
+      },
       { threshold: 0.5 }
     );
-    if (observerRef.current) { observer.observe(observerRef.current);}
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
     return () => observer.disconnect();
   }, [visibleCount, filteredRecipes.length]);
 
