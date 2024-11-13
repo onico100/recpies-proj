@@ -24,7 +24,7 @@ const RecipesFetcher = () => {
 
   if (isLoading) {
     return (
-      <div className={styles.loadingOverlayR}>
+      <div id="rf" className={styles.loadingOverlay}>
         <div className={styles.loadingContainer}>
           <div className={styles.spinner}></div>
           Loading recipes...
