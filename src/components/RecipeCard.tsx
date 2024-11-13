@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import styles from "@/styles/RecipeCard.module.css";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { FaRegHeart } from "react-icons/fa6";
+import { IoMdHeart } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 import { Recipe } from "@/types/RecipeTypes";
 
@@ -37,12 +38,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       <div className={styles.header}>
         <h3 className={styles.name}>{recipe.recipe_name}</h3>
         {isFavorite ? (
-          <AiFillStar className={styles.starIcon} onClick={onToggleFavorite} />
+          <IoMdHeart className={styles.starIcon} onClick={onToggleFavorite} />
         ) : (
-          <AiOutlineStar
-            className={styles.starIcon}
-            onClick={onToggleFavorite}
-          />
+          <FaRegHeart className={styles.starIcon} onClick={onToggleFavorite} />
         )}
       </div>
       <p className={styles.category}>

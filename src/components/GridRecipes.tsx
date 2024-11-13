@@ -7,7 +7,7 @@ import { useRecipesStore } from "@/stores/recipesStore";
 import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
-import { AiFillStar } from "react-icons/ai";
+import { IoMdHeart } from "react-icons/io";
 import { ConfirmModal, RecipeDetails, RecipeCard } from "./";
 
 interface GridRecipesProps {
@@ -148,8 +148,8 @@ export default function GridRecipes({
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
-            <AiFillStar className={styles.starIcon} /> Favorites{" "}
-            <AiFillStar className={styles.starIcon} />
+            <IoMdHeart className={styles.starIcon} /> Favorites{" "}
+            <IoMdHeart className={styles.starIcon} />
           </div>
         </button>
       </div>
