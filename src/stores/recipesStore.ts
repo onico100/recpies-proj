@@ -1,13 +1,5 @@
-import { create } from 'zustand';
-
-export type Recipe = {
-  _id: string;
-  url_image: string;
-  recipe_name: string;
-  categoryId: string;
-  instructions: string;
-  ingredients: string[];
-};
+import { create } from "zustand";
+import { Recipe } from "@/types/RecipeTypes";
 
 export type RecipesStore = {
   recipes: Recipe[];
@@ -16,6 +8,5 @@ export type RecipesStore = {
 
 export const useRecipesStore = create<RecipesStore>((set) => ({
   recipes: [],
-  setRecipes: (recipes) => set({ recipes })
+  setRecipes: (recipes) => set({ recipes }),
 }));
-

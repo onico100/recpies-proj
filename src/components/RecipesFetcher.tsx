@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Recipe, useRecipesStore } from '@/stores/recipesStore';
-import { getAllRecipes } from '@/services/recipesService';
+"use client";
+
+import React, { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRecipesStore } from "@/stores/recipesStore";
+import { getAllRecipes } from "@/services/recipesService";
+import { Recipe } from "@/types/RecipeTypes";
+import styles from "@/styles/Fetchers.module.css";
 
 const RecipesFetcher = () => {
   const { setRecipes } = useRecipesStore();
 
+
   const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
     queryKey: ['recipes'],
+
     queryFn: getAllRecipes,
     staleTime: 300000,
   });
@@ -19,7 +25,14 @@ const RecipesFetcher = () => {
   }, [data, setRecipes]);
 
   if (isLoading) {
-    return <div>Loading recipes...</div>;
+    return (
+      <div className={styles.loadingOverlayR}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          Loading recipes...
+        </div>
+      </div>
+    );
   }
 
   if (isError) {
