@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState, useRef } from "react";
 import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
