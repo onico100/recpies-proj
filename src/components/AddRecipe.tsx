@@ -40,7 +40,7 @@ const AddRecipe = () => {
     addRecipe(recipe);
     reset();
     setIngredientList([]);
-    router.push("/");
+    router.push("/HomePageRoute");
   };
 
   const handleAddIngredient = () => {
@@ -53,7 +53,7 @@ const AddRecipe = () => {
 
   return (
     <div>
-      <Link href="/" className={styles.backLink}>
+      <Link href="/HomePageRoute" className={styles.backLink}>
         <FaChevronLeft />
         Back
       </Link>
