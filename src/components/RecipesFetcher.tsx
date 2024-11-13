@@ -6,7 +6,7 @@ import { getAllRecipes } from '@/services/recipesService';
 const RecipesFetcher = () => {
   const { setRecipes } = useRecipesStore();
 
-  const { data, error, isLoading } = useQuery<Recipe[], Error>({
+  const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
     queryKey: ['recipes'],
     queryFn: getAllRecipes,
     staleTime: 300000,
@@ -22,8 +22,8 @@ const RecipesFetcher = () => {
     return <div>Loading recipes...</div>;
   }
 
-  if (error) {
-    return <div>Error fetching recipes: {error.message}</div>;
+  if (isError) {
+    return <div>Error fetching recipes: {error?.message}</div>;
   }
 
   return null;
