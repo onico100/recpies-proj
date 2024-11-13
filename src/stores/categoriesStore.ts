@@ -1,9 +1,5 @@
-import { create } from 'zustand';
-
-export type Category = {
-  _id: string;
-  category_name: string;
-};
+import { create } from "zustand";
+import { Category } from "@/types/CategogyTypes";
 
 type CategoriesStore = {
   categories: Category[];
@@ -14,5 +10,3 @@ export const useCategoriesStore = create<CategoriesStore>((set) => ({
   categories: [],
   setCategories: (categories) => set({ categories }),
 }));
-
-
