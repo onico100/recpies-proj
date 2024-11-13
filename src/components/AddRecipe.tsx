@@ -11,12 +11,11 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
 
-
-const AddRecipe = () => {
-  const { categories } = useCategoriesStore.getState();
+const { categories } = useCategoriesStore.getState();
 let categoriesNames = categories.map((category) => category.category_name);
 const categoriesList = ["Choose", ...categoriesNames];
 
+const AddRecipe = () => {
   const router = useRouter();
   const {
     register,
@@ -42,7 +41,7 @@ const categoriesList = ["Choose", ...categoriesNames];
     addRecipe(recipe);
     reset();
     setIngredientList([]);
-    router.push("/");
+    router.push("/HomePageRoute");
   };
 
   const handleAddIngredient = () => {

@@ -12,8 +12,10 @@ const RecipesFetcher = () => {
   const { setRecipes} = useRecipesStore();
 
 
-  const { data, error, isLoading } = useQuery<Recipe[], Error>({
-    queryKey: ["recipes"],
+
+  const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
+    queryKey: ['recipes'],
+
     queryFn: getAllRecipes,
     staleTime: 300000,
   });
@@ -37,8 +39,8 @@ const RecipesFetcher = () => {
     );
   }
 
-  if (error) {
-    return <div>Error fetching recipes: {error.message}</div>;
+  if (isError) {
+    return <div>Error fetching recipes: {error?.message}</div>;
   }
 
   return null;
