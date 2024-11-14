@@ -9,12 +9,10 @@ import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
-
-const { categories } = useCategoriesStore.getState();
-let categoriesNames = categories.map((category) => category.category_name);
-const categoriesList = ["Choose", ...categoriesNames];
-
 const AddRecipe = () => {
+  const { categories } = useCategoriesStore.getState();
+  let categoriesNames = categories.map((category) => category.category_name);
+  const categoriesList = ["Choose", ...categoriesNames];
   const router = useRouter();
   const {
     register,
@@ -25,10 +23,8 @@ const AddRecipe = () => {
   } = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeSchema),
   });
-
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
-
   const onSubmit = (data: RecipeFormValues) => {
     let recipe = {
       recipe_name: data.recipe_name,
@@ -42,7 +38,6 @@ const AddRecipe = () => {
     setIngredientList([]);
     router.push("/HomePageRoute");
   };
-
   const handleAddIngredient = () => {
     if (ingredient) {
       setIngredientList((prev) => [...prev, ingredient]);
@@ -50,14 +45,12 @@ const AddRecipe = () => {
       setIngredient("");
     }
   };
-
-  
   return (
     <div>
-      <button onClick={() => router.back()} className={styles.backLink}>
+      <Link href="/HomePageRoute" className={styles.backLink}>
         <FaChevronLeft />
         Back
-      </button>
+      </Link>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles["form-container"]}
@@ -133,5 +126,4 @@ const AddRecipe = () => {
     </div>
   );
 };
-
 export default AddRecipe;
