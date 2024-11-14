@@ -19,8 +19,6 @@ export default function GridRecipes({
   searchQuery,
   selectedCategories,
 }: GridRecipesProps) {
-  console.log("searchQuery: ", searchQuery);
-  console.log("selectedCategories: ", selectedCategories);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);

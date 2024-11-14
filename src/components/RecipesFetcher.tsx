@@ -18,10 +18,7 @@ const RecipesFetcher = () => {
 
   useEffect(() => {
     if (data) {
-      console.log("first ", first);
       setRecipes(data);
-      console.log("recipes fetched use effect", data);
-      console.log("first after ", first);
     }
     setFirst(2);
   }, [data, setRecipes]);
