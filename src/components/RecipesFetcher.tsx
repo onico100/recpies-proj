@@ -8,10 +8,8 @@ import { Recipe } from "@/types/RecipeTypes";
 import styles from "@/styles/Fetchers.module.css";
 
 const RecipesFetcher = () => {
-  console.log("RecipeFetcher enterd");
   const { setRecipes } = useRecipesStore();
   const [first, setFirst] = useState(1);
-
   const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
     queryKey: ["recipes"],
     queryFn: getAllRecipes,

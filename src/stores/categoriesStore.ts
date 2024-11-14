@@ -14,7 +14,7 @@ export const useCategoriesStore = create<CategoriesStore>()(
       setCategories: (categories) => set({ categories }),
     }),
     {
-      name: "categories-storage", // Specify a storage name (optional)
+      name: "categories-storage", 
     }
   )
 );
