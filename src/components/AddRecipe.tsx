@@ -36,7 +36,7 @@ const AddRecipe = () => {
     addRecipe(recipe);
     reset();
     setIngredientList([]);
-    router.push("/HomePageRoute");
+    router.push("/");
   };
   const handleAddIngredient = () => {
     if (ingredient) {
