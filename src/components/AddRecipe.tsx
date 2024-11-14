@@ -28,7 +28,7 @@ const AddRecipe = () => {
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
 
-  const onSubmit = (data: RecipeFormValues) => {
+  const onSubmit = async (data: RecipeFormValues) => {
     let recipe = {
       recipe_name: data.recipe_name,
       category: data.category,
@@ -36,11 +36,21 @@ const AddRecipe = () => {
       url_image: data.url_image,
       ingredients: data.ingredients,
     };
-    addRecipe(recipe);
-    reset();
-    setIngredientList([]);
-    Swal.fire("Added!", "Your recipe has been added successfully.", "success");
-    router.push("/");
+
+    try {
+      reset(); // Reset form fields
+      setIngredientList([]); // Clear ingredient list
+      await addRecipe(recipe); // Wait until recipe is added successfully
+      Swal.fire(
+        "Added!",
+        "Your recipe has been added successfully.",
+        "success"
+      );
+      router.push("/"); // Navigate to home page
+    } catch (error) {
+      Swal.fire("Error!", "There was a problem adding your recipe.", "error");
+      console.error("Error adding recipe:", error);
+    }
   };
 
   const handleAddIngredient = () => {
