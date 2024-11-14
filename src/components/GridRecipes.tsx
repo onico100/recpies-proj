@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/GridRecipes.module.css";
@@ -8,7 +8,9 @@ import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { IoMdHeart } from "react-icons/io";
-import { ConfirmModal, RecipeDetails, RecipeCard } from "./";
+import { RecipeDetails, RecipeCard } from "./";
+import { handleConfirmDelete } from "@/library/alerts";
+import Swal from "sweetalert2";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -26,9 +28,6 @@ export default function GridRecipes({
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
-
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
   const { categories, setCategories } = useCategoriesStore();
   const { recipes, setRecipes } = useRecipesStore();
@@ -82,23 +81,16 @@ export default function GridRecipes({
     }
   };
 
-  const handleDeleteClick = (recipeId: string) => {
-    setSelectedRecipeId(recipeId);
-    setIsConfirmOpen(true);
-  };
+  const handleDeleteClick = async (recipeId: string) => {
+    const isConfirmed = await handleConfirmDelete();
 
-  const handleConfirmDelete = async () => {
-    if (selectedRecipeId) {
-      await deleteRecipe(selectedRecipeId);
-      setRecipes(recipes.filter((recipe) => recipe._id !== selectedRecipeId));
-      setSelectedRecipeId(null);
-      setIsConfirmOpen(false);
+    if (isConfirmed) {
+      // If the user confirms, proceed with deletion
+      deleteRecipe(recipeId);
+      setRecipes(recipes.filter((recipe) => recipe._id !== recipeId));
+
+      Swal.fire("Deleted!", "Your recipe has been deleted.", "success");
     }
-  };
-
-  const handleCancel = () => {
-    setIsConfirmOpen(false);
-    setSelectedRecipeId(null);
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
@@ -123,7 +115,7 @@ export default function GridRecipes({
     if (visibleCount >= filteredRecipes.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if ((entries[0].isIntersecting)) {
+        if (entries[0].isIntersecting) {
           loadMoreRecipes();
         }
       },
@@ -133,23 +125,25 @@ export default function GridRecipes({
       observer.observe(observerRef.current);
     }
     return () => observer.disconnect();
-  }, [visibleCount, filteredRecipes.length],);
+  }, [visibleCount, filteredRecipes.length]);
 
   return (
     <div>
       <div className={styles.allContainer}>
         <div className={styles.buttonContainer}>
           <button
-            className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
-              }`}
+            className={`${styles.button} ${
+              !showFavorites ? styles.activeButton : ""
+            }`}
             onClick={() => setShowFavorites(false)}
           >
             {" "}
             All Recipes
           </button>
           <button
-            className={`${styles.button} ${showFavorites ? styles.activeButton : ""
-              }`}
+            className={`${styles.button} ${
+              showFavorites ? styles.activeButton : ""
+            }`}
             onClick={() => setShowFavorites(true)}
           >
             <div className={styles.favTitle}>
@@ -183,16 +177,8 @@ export default function GridRecipes({
             />
           )}
         </div>
-        {
-          visibleCount < filteredRecipes.length && (
-            <div ref={observerRef}>Loading recipes...</div>
-          )}
-        {isConfirmOpen && (
-          <ConfirmModal
-            message="Are you sure you want to delete this recipe?"
-            onConfirm={handleConfirmDelete}
-            onCancel={handleCancel}
-          />
+        {visibleCount < filteredRecipes.length && (
+          <div ref={observerRef}>Loading recipes...</div>
         )}
       </div>
     </div>

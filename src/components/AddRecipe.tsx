@@ -9,6 +9,7 @@ import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
+import Swal from "sweetalert2";
 
 const AddRecipe = () => {
   const { categories } = useCategoriesStore.getState();
@@ -38,6 +39,7 @@ const AddRecipe = () => {
     addRecipe(recipe);
     reset();
     setIngredientList([]);
+    Swal.fire("Added!", "Your recipe has been added successfully.", "success");
     router.push("/");
   };
 
@@ -48,7 +50,7 @@ const AddRecipe = () => {
       setIngredient("");
     }
   };
-  
+
   return (
     <div>
       <Link href="/HomePageRoute" className={styles.backLink}>
