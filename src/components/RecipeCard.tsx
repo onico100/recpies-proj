@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import styles from "@/styles/RecipeCard.module.css";
 import { FaRegHeart } from "react-icons/fa6";

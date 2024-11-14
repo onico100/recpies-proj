@@ -9,6 +9,7 @@ import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
+
 const AddRecipe = () => {
   const { categories } = useCategoriesStore.getState();
   let categoriesNames = categories.map((category) => category.category_name);
@@ -25,6 +26,7 @@ const AddRecipe = () => {
   });
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
+
   const onSubmit = (data: RecipeFormValues) => {
     let recipe = {
       recipe_name: data.recipe_name,
@@ -36,8 +38,9 @@ const AddRecipe = () => {
     addRecipe(recipe);
     reset();
     setIngredientList([]);
-    router.push("/HomePageRoute");
+    router.push("/");
   };
+
   const handleAddIngredient = () => {
     if (ingredient) {
       setIngredientList((prev) => [...prev, ingredient]);
@@ -45,6 +48,7 @@ const AddRecipe = () => {
       setIngredient("");
     }
   };
+  
   return (
     <div>
       <Link href="/HomePageRoute" className={styles.backLink}>
