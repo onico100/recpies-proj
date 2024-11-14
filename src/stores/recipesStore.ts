@@ -19,4 +19,3 @@ export const useRecipesStore = create<RecipesStore>()(
   )
 );
 
-console.log("recipes store created");
