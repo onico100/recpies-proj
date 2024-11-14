@@ -1,14 +1,13 @@
+"use client"
 import React, { useEffect, useState, useRef } from "react";
-import RecipeCard from "./RecipeCard";
 import styles from "@/styles/GridRecipes.module.css";
-import RecipeDetails from "./RecipeDetails";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { useRecipesStore } from "@/stores/recipesStore";
-import { Recipe } from "@/stores/recipesStore";
+import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
-import { AiFillStar } from "react-icons/ai";
-import ConfirmModal from "./ConfirmModal";
+import { IoMdHeart } from "react-icons/io";
+import { ConfirmModal, RecipeDetails, RecipeCard, RecipesFetcher, CategoriesFetcher } from "./";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -19,11 +18,13 @@ export default function GridRecipes({
   searchQuery,
   selectedCategories,
 }: GridRecipesProps) {
+  console.log("searchQuery: ", searchQuery);
+  console.log("selectedCategories: ", selectedCategories);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [screenWidth, setScreenWidth] = useState(0);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
@@ -32,9 +33,22 @@ export default function GridRecipes({
   const { recipes, setRecipes } = useRecipesStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
+  const recipeWidth = 320;
+
+  const recipesPerRow = Math.floor(screenWidth / recipeWidth);
+  const [visibleCount, setVisibleCount] = useState(recipesPerRow);
+
+
+
   useEffect(() => {
+      if(visibleCount<=2) loadMoreRecipes();
+  });
+
+  useEffect(() => {
+    if(visibleCount<=2) loadMoreRecipes();
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
+    setScreenWidth(window.innerWidth);
   }, []);
 
   const handleReadMoreClick = (recipe: Recipe) => {
@@ -101,50 +115,51 @@ export default function GridRecipes({
 
   const loadMoreRecipes = () => {
     setVisibleCount((prevCount) => {
-      const newCount = prevCount + 4;
-      console.log("Current visible count:", newCount);
+      const newCount = prevCount + recipesPerRow;
       return newCount;
     });
   };
 
+
+
   useEffect(() => {
     if (visibleCount >= filteredRecipes.length) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log("Observer entry:", entries[0].isIntersecting);
-        if (entries[0].isIntersecting) {
+        if ((entries[0].isIntersecting)) {
           loadMoreRecipes();
         }
       },
       { threshold: 0.5 }
     );
-
     if (observerRef.current) {
       observer.observe(observerRef.current);
     }
-
     return () => observer.disconnect();
-  }, [visibleCount, filteredRecipes.length]);
+  }, [visibleCount, filteredRecipes.length],);
 
   return (
+    <div>
     <div className={styles.allContainer}>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            !showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(false)}
         >
+          {" "}
           All Recipes
         </button>
         <button
-          className={`${styles.button} ${showFavorites ? styles.activeButton : ""
-            }`}
+          className={`${styles.button} ${
+            showFavorites ? styles.activeButton : ""
+          }`}
           onClick={() => setShowFavorites(true)}
         >
           <div className={styles.favTitle}>
-            <AiFillStar className={styles.starIcon} /> Favorites{" "}
-            <AiFillStar className={styles.starIcon} />
+            <IoMdHeart className={styles.starIcon} /> Favorites{" "}
+            <IoMdHeart className={styles.starIcon} />
           </div>
         </button>
       </div>
@@ -152,10 +167,8 @@ export default function GridRecipes({
         {filteredRecipes.slice(0, visibleCount).map((recipe) => (
           <RecipeCard
             key={recipe._id}
-            url_image={recipe.url_image}
-            recipe_name={recipe.recipe_name}
-            category_name={getCategoryNameById(recipe.categoryId)}
-            instructions={recipe.instructions}
+            recipe={recipe}
+            getCategory={getCategoryNameById}
             isFavorite={isRecipeFavorite(recipe._id)}
             onToggleFavorite={() => handleToggleFavorite(recipe._id)}
             onReadMore={() => handleReadMoreClick(recipe)}
@@ -177,14 +190,10 @@ export default function GridRecipes({
         )}
       </div>
 
-      {visibleCount < filteredRecipes.length && (
-        <div
-          ref={observerRef}
-          style={{ height: "50px", backgroundColor: "transparent" }}
-        >
-          Loading recipes...
-        </div>
-      )}
+      {
+      visibleCount < filteredRecipes.length && (
+        <div ref={observerRef}>Loading recipes...</div>
+      )}   
       {isConfirmOpen && (
         <ConfirmModal
           message="Are you sure you want to delete this recipe?"
@@ -192,6 +201,7 @@ export default function GridRecipes({
           onCancel={handleCancel}
         />
       )}
+    </div>
     </div>
   );
 }
