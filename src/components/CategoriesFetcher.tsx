@@ -9,7 +9,7 @@ import styles from "@/styles/Fetchers.module.css";
 
 const CategoriesFetcher = () => {
   const { setCategories } = useCategoriesStore();
-  const [first,setFirst]=useState(1);
+  const [first, setFirst] = useState(1);
 
   const { data, error, isLoading } = useQuery<Category[], Error>({
     queryKey: ["categories"],
@@ -25,9 +25,19 @@ const CategoriesFetcher = () => {
   }, [data, setCategories]);
 
   if (isLoading) {
-    return (<div>
-          {first==1?<div className={styles.loadingOverlayC}><div className={styles.loadingContainer}><div className={styles.spinner}>Loading Categories...</div></div></div>:" "}
+    return (
+      <div>
+        {first == 1 ? (
+          <div className={styles.loadingOverlayC}>
+            <div className={styles.loadingContainer}>
+              <div className={styles.spinner}></div>
+              Loading Categories...
+            </div>
           </div>
+        ) : (
+          " "
+        )}
+      </div>
     );
   }
 

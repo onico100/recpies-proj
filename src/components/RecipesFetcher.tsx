@@ -9,13 +9,11 @@ import styles from "@/styles/Fetchers.module.css";
 
 const RecipesFetcher = () => {
   console.log("RecipeFetcher enterd");
-  const { setRecipes} = useRecipesStore();
-  const [first, setFirst]=useState(1);
-
-
+  const { setRecipes } = useRecipesStore();
+  const [first, setFirst] = useState(1);
 
   const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
-    queryKey: ['recipes'],
+    queryKey: ["recipes"],
 
     queryFn: getAllRecipes,
     staleTime: 300000,
@@ -32,10 +30,19 @@ const RecipesFetcher = () => {
   }, [data, setRecipes]);
 
   if (isLoading) {
-    return (<div>
-      {first==1?<div className={styles.loadingOverlayC}><div className={styles.loadingContainer}><div className={styles.spinner}>Loading Recipes...</div></div></div>:" "}
+    return (
+      <div>
+        {first == 1 ? (
+          <div className={styles.loadingOverlayR}>
+            <div className={styles.loadingContainer}>
+              <div className={styles.spinner}></div>Loading Recipes...
+            </div>
+          </div>
+        ) : (
+          " "
+        )}
       </div>
-);
+    );
   }
 
   if (isError) {
@@ -46,4 +53,3 @@ const RecipesFetcher = () => {
 };
 
 export default RecipesFetcher;
-
