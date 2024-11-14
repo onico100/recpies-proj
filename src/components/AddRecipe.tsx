@@ -38,15 +38,15 @@ const AddRecipe = () => {
     };
 
     try {
-      reset(); // Reset form fields
-      setIngredientList([]); // Clear ingredient list
-      await addRecipe(recipe); // Wait until recipe is added successfully
+      reset();
+      setIngredientList([]);
+      await addRecipe(recipe);
       Swal.fire(
         "Added!",
         "Your recipe has been added successfully.",
         "success"
       );
-      router.push("/"); // Navigate to home page
+      router.push("/");
     } catch (error) {
       Swal.fire("Error!", "There was a problem adding your recipe.", "error");
       console.error("Error adding recipe:", error);
