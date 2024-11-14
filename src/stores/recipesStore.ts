@@ -14,7 +14,7 @@ export const useRecipesStore = create<RecipesStore>()(
       setRecipes: (recipes) => set({ recipes }),
     }),
     {
-      name: "recipes-storage", // Specify a storage name (optional)
+      name: "recipes-storage",
     }
   )
 );
