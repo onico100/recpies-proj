@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import styles from "@/styles/NavBar.module.css";
@@ -14,7 +15,6 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { categories, setCategories } = useCategoriesStore();
-
   let delletedCategories = false;
 
   const toggleDropdown = () => {
@@ -43,11 +43,8 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
     );
     setSelectedCategories(newSelectedCategories);
     onCategoryChange(newSelectedCategories);
-
     setIsDropdownOpen(false);
-
     delletedCategories = true;
-
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,21 +58,21 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       <div className={styles.controlsContainer}>
         <div className={styles.dropdown}>
           <button className={styles.select} onClick={toggleDropdown}>{selectedCategories.length === 0 ? (
-              "Pick a category..." ) : (
-              <div className={styles.selectedCategories}>
-                {selectedCategories.map((category) => (
-                  <div key={category} className={styles.categoryTag}>
-                    {category}
-                    <button
-                      className={styles.removeButton}
-                      onClick={() => removeCategory(category)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+            "Pick a category...") : (
+            <div className={styles.selectedCategories}>
+              {selectedCategories.map((category) => (
+                <div key={category} className={styles.categoryTag}>
+                  {category}
+                  <button
+                    className={styles.removeButton}
+                    onClick={() => removeCategory(category)}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           </button>
           {isDropdownOpen && (
             <ul className={styles.dropdownMenu}>

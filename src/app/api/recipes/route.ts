@@ -1,10 +1,6 @@
 "use server";
 import { NextResponse } from "next/server";
-import {
-  getAllDocuments,
-  connectDatabase,
-  insertDocument,
-} from "@/services/mongo";
+import { getAllDocuments, connectDatabase, insertDocument } from "@/services/mongo";
 import { ObjectId } from "mongodb";
 import { databaseName } from "@/services/mongo";
 

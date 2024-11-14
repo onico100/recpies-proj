@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/styles/GridRecipes.module.css";
 import { useCategoriesStore } from "@/stores/categoriesStore";
@@ -7,7 +8,7 @@ import { Recipe } from "@/types/RecipeTypes";
 import { deleteRecipe } from "@/services/recipesService";
 import { getFromLocalStorage, saveToLocalStorage } from "@/library/util";
 import { IoMdHeart } from "react-icons/io";
-import { ConfirmModal, RecipeDetails, RecipeCard, RecipesFetcher, CategoriesFetcher } from "./";
+import { ConfirmModal, RecipeDetails, RecipeCard } from "./";
 
 interface GridRecipesProps {
   searchQuery: string;
@@ -38,14 +39,12 @@ export default function GridRecipes({
   const recipesPerRow = Math.floor(screenWidth / recipeWidth);
   const [visibleCount, setVisibleCount] = useState(recipesPerRow);
 
-
-
   useEffect(() => {
-      if(visibleCount<=2) loadMoreRecipes();
+    if (visibleCount <= 2) loadMoreRecipes();
   });
 
   useEffect(() => {
-    if(visibleCount<=2) loadMoreRecipes();
+    if (visibleCount <= 2) loadMoreRecipes();
     let favorits = getFromLocalStorage() || [];
     setFavoriteRecipes(favorits);
     setScreenWidth(window.innerWidth);
@@ -120,8 +119,6 @@ export default function GridRecipes({
     });
   };
 
-
-
   useEffect(() => {
     if (visibleCount >= filteredRecipes.length) return;
     const observer = new IntersectionObserver(
@@ -140,68 +137,64 @@ export default function GridRecipes({
 
   return (
     <div>
-    <div className={styles.allContainer}>
-      <div className={styles.buttonContainer}>
-        <button
-          className={`${styles.button} ${
-            !showFavorites ? styles.activeButton : ""
-          }`}
-          onClick={() => setShowFavorites(false)}
-        >
-          {" "}
-          All Recipes
-        </button>
-        <button
-          className={`${styles.button} ${
-            showFavorites ? styles.activeButton : ""
-          }`}
-          onClick={() => setShowFavorites(true)}
-        >
-          <div className={styles.favTitle}>
-            <IoMdHeart className={styles.starIcon} /> Favorites{" "}
-            <IoMdHeart className={styles.starIcon} />
-          </div>
-        </button>
-      </div>
-      <div className={styles.grid}>
-        {filteredRecipes.slice(0, visibleCount).map((recipe) => (
-          <RecipeCard
-            key={recipe._id}
-            recipe={recipe}
-            getCategory={getCategoryNameById}
-            isFavorite={isRecipeFavorite(recipe._id)}
-            onToggleFavorite={() => handleToggleFavorite(recipe._id)}
-            onReadMore={() => handleReadMoreClick(recipe)}
-            onDelete={() => handleDeleteClick(recipe._id)}
-          />
-        ))}
-
-        {selectedRecipe && (
-          <RecipeDetails
-            isOpen={isSidebarOpen}
-            onClose={handleCloseSidebar}
-            recipe={{
-              ...selectedRecipe,
-              categoryName: getCategoryNameById(selectedRecipe.categoryId),
-            }}
-            isFavorite={isRecipeFavorite(selectedRecipe._id)}
-            onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)}
+      <div className={styles.allContainer}>
+        <div className={styles.buttonContainer}>
+          <button
+            className={`${styles.button} ${!showFavorites ? styles.activeButton : ""
+              }`}
+            onClick={() => setShowFavorites(false)}
+          >
+            {" "}
+            All Recipes
+          </button>
+          <button
+            className={`${styles.button} ${showFavorites ? styles.activeButton : ""
+              }`}
+            onClick={() => setShowFavorites(true)}
+          >
+            <div className={styles.favTitle}>
+              <IoMdHeart className={styles.starIcon} /> Favorites{" "}
+              <IoMdHeart className={styles.starIcon} />
+            </div>
+          </button>
+        </div>
+        <div className={styles.grid}>
+          {filteredRecipes.slice(0, visibleCount).map((recipe) => (
+            <RecipeCard
+              key={recipe._id}
+              recipe={recipe}
+              getCategory={getCategoryNameById}
+              isFavorite={isRecipeFavorite(recipe._id)}
+              onToggleFavorite={() => handleToggleFavorite(recipe._id)}
+              onReadMore={() => handleReadMoreClick(recipe)}
+              onDelete={() => handleDeleteClick(recipe._id)}
+            />
+          ))}
+          {selectedRecipe && (
+            <RecipeDetails
+              isOpen={isSidebarOpen}
+              onClose={handleCloseSidebar}
+              recipe={{
+                ...selectedRecipe,
+                categoryName: getCategoryNameById(selectedRecipe.categoryId),
+              }}
+              isFavorite={isRecipeFavorite(selectedRecipe._id)}
+              onToggleFavorite={() => handleToggleFavorite(selectedRecipe._id)}
+            />
+          )}
+        </div>
+        {
+          visibleCount < filteredRecipes.length && (
+            <div ref={observerRef}>Loading recipes...</div>
+          )}
+        {isConfirmOpen && (
+          <ConfirmModal
+            message="Are you sure you want to delete this recipe?"
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancel}
           />
         )}
       </div>
-
-      {
-      visibleCount < filteredRecipes.length && (
-        <div ref={observerRef}>Loading recipes...</div>
-      )}   
-      {isConfirmOpen && (
-        <ConfirmModal
-          message="Are you sure you want to delete this recipe?"
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancel}
-        />
-      )}
-    </div>
     </div>
   );
 }
