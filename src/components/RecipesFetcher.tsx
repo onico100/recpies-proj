@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRecipesStore } from "@/stores/recipesStore";
 import { getAllRecipes } from "@/services/recipesService";
@@ -10,6 +10,7 @@ import styles from "@/styles/Fetchers.module.css";
 const RecipesFetcher = () => {
   console.log("RecipeFetcher enterd");
   const { setRecipes} = useRecipesStore();
+  const [first, setFirst]=useState(1);
 
 
 
@@ -22,21 +23,19 @@ const RecipesFetcher = () => {
 
   useEffect(() => {
     if (data) {
+      console.log("first ", first);
       setRecipes(data);
       console.log("recipes fetched use effect", data);
+      console.log("first after ", first);
     }
-    
+    setFirst(2);
   }, [data, setRecipes]);
 
   if (isLoading) {
-    return (
-      <div className={styles.loadingOverlayR}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          Loading Recipes...
-        </div>
+    return (<div>
+      {first==1?<div className={styles.loadingOverlayC}><div className={styles.loadingContainer}><div className={styles.spinner}>Loading Recipes...</div></div></div>:" "}
       </div>
-    );
+);
   }
 
   if (isError) {
