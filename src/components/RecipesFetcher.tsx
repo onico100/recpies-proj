@@ -14,7 +14,6 @@ const RecipesFetcher = () => {
 
   const { data, error, isLoading, isError } = useQuery<Recipe[], Error>({
     queryKey: ["recipes"],
-
     queryFn: getAllRecipes,
     staleTime: 300000,
   });
@@ -51,5 +50,4 @@ const RecipesFetcher = () => {
 
   return null;
 };
-
 export default RecipesFetcher;

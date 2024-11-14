@@ -1,4 +1,4 @@
-import { AddRecipe} from '@/components'
+import { AddRecipe } from '@/components'
 
 
 export default function AddRecipePage() {
