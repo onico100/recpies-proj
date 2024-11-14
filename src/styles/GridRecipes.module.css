@@ -13,9 +13,12 @@
   margin-right: 8%;
   font-family: "Lobster", cursive;
   margin-bottom: 14%;
+  
 }
 
 .buttonContainer {
+  position: fixed;
+  z-index: 1000;
   top: 75px;
   position: fixed;
   width: 100%;

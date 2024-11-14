@@ -9,6 +9,7 @@ import { addRecipe } from "@/services/recipesService";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
+import Swal from "sweetalert2";
 
 const AddRecipe = () => {
   const { categories } = useCategoriesStore.getState();
@@ -27,7 +28,7 @@ const AddRecipe = () => {
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
 
-  const onSubmit = (data: RecipeFormValues) => {
+  const onSubmit = async (data: RecipeFormValues) => {
     let recipe = {
       recipe_name: data.recipe_name,
       category: data.category,
@@ -35,10 +36,21 @@ const AddRecipe = () => {
       url_image: data.url_image,
       ingredients: data.ingredients,
     };
-    addRecipe(recipe);
-    reset();
-    setIngredientList([]);
-    router.push("/");
+
+    try {
+      reset();
+      setIngredientList([]);
+      await addRecipe(recipe);
+      Swal.fire(
+        "Added!",
+        "Your recipe has been added successfully.",
+        "success"
+      );
+      router.push("/");
+    } catch (error) {
+      Swal.fire("Error!", "There was a problem adding your recipe.", "error");
+      console.error("Error adding recipe:", error);
+    }
   };
 
   const handleAddIngredient = () => {
@@ -48,7 +60,7 @@ const AddRecipe = () => {
       setIngredient("");
     }
   };
-  
+
   return (
     <div>
       <Link href="/HomePageRoute" className={styles.backLink}>
