@@ -31,9 +31,7 @@ export default function NavBar({ onSearch, onCategoryChange }: NavBarProps) {
       ? selectedCategories.filter((category) => category !== value)
       : [...selectedCategories, value];
     setSelectedCategories(newSelectedCategories);
-
     onCategoryChange(newSelectedCategories);
-
     setIsDropdownOpen(!isDropdownOpen);
   };
 
