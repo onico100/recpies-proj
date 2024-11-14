@@ -25,8 +25,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   onDelete,
 }) => {
   const truncatedInstructions =
-    recipe.instructions.length > 100
-      ? `${recipe.instructions.substring(0, 100)}...`
+    recipe.instructions.length > 70
+      ? `${recipe.instructions.substring(0, 70)}...`
       : recipe.instructions;
 
   return (
