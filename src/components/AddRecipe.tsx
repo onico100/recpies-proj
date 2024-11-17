@@ -10,6 +10,8 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useCategoriesStore } from "@/stores/categoriesStore";
 import { recipeSchema, RecipeFormValues } from "@/types/RecipeTypes";
 import Swal from "sweetalert2";
+import { CiEdit } from "react-icons/ci";
+
 
 const AddRecipe = () => {
   const { categories } = useCategoriesStore.getState();
@@ -27,6 +29,8 @@ const AddRecipe = () => {
   });
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState<string[]>([]);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
 
   const onSubmit = async (data: RecipeFormValues) => {
     let recipe = {
@@ -55,10 +59,30 @@ const AddRecipe = () => {
 
   const handleAddIngredient = () => {
     if (ingredient) {
-      setIngredientList((prev) => [...prev, ingredient]);
+      if (editingIndex !== null) {
+        setIngredientList((prev) => {
+          const updatedList = [...prev];
+          updatedList[editingIndex] = ingredient;
+          return updatedList;
+        });
+        setEditingIndex(null);
+      } else {
+        setIngredientList((prev) => [...prev, ingredient]);
+      }
       setValue("ingredients", [...ingredientList, ingredient]);
       setIngredient("");
     }
+  };
+
+
+  const handleEditIngredient = (index: number) => {
+    setIngredient(ingredientList[index]);
+    setEditingIndex(index);
+  };
+
+  const handleDeleteIngredient = (index: number) => {
+    setIngredientList((prev) => prev.filter((_, i) => i !== index));
+    setValue("ingredients", ingredientList.filter((_, i) => i !== index));
   };
 
   return (
@@ -69,18 +93,18 @@ const AddRecipe = () => {
       </Link>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={styles["form-container"]}
+        className={styles.formContainer}
       >
-        <div className={styles["form-group"]}>
+        <div className={styles.formGroup}>
           <label>Name</label>
           <input type="text" {...register("recipe_name")} />
           {errors.recipe_name && (
-            <p className={styles["error-message"]}>
+            <p className={styles.errorMessage}>
               {errors.recipe_name.message}
             </p>
           )}
         </div>
-        <div className={styles["form-group"]}>
+        <div className={styles.formGroup}>
           <label>Category</label>
           <select {...register("category")}>
             {categoriesList.map((cat, index) => (
@@ -90,28 +114,28 @@ const AddRecipe = () => {
             ))}
           </select>
           {errors.category && (
-            <p className={styles["error-message"]}>{errors.category.message}</p>
+            <p className={styles.errorMessage}>{errors.category.message}</p>
           )}
         </div>
-        <div className={styles["form-group"]}>
+        <div className={styles.formGroup}>
           <label>Instructions</label>
           <textarea {...register("instructions")} />
           {errors.instructions && (
-            <p className={styles["error-message"]}>
+            <p className={styles.errorMessage}>
               {errors.instructions.message}
             </p>
           )}
         </div>
-        <div className={styles["form-group"]}>
+        <div className={styles.formGroup}>
           <label>Image URL</label>
           <input type="text" {...register("url_image")} />
           {errors.url_image && (
-            <p className={styles["error-message"]}>
+            <p className={styles.errorMessage}>
               {errors.url_image.message}
             </p>
           )}
         </div>
-        <div className={styles["form-group"]}>
+        <div className={styles.formGroup}>
           <label>Ingredients</label>
           <p>Press '+' for adding</p>
           <div className={styles.addIngredients}>
@@ -126,13 +150,21 @@ const AddRecipe = () => {
             </button>
           </div>
           <br />
-          <ul className={styles["ingredient-list"]}>
+          <ul className={styles.ingredientList}>
             {ingredientList.map((ing, index) => (
-              <li key={index}>{ing}</li>
+              <li key={index} className={styles.ingredientItem}>
+                <div className={styles.ingredient}>
+                  {ing}
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" onClick={() => handleEditIngredient(index)} ><CiEdit /></button>
+                  <button type="button" onClick={() => handleDeleteIngredient(index)}>-</button>
+                </div>
+              </li>
             ))}
           </ul>
           {errors.ingredients && (
-            <p className={styles["error-message"]}>
+            <p className={styles.errorMessage}>
               {errors.ingredients.message}
             </p>
           )}

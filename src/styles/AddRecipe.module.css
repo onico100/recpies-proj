@@ -1,4 +1,4 @@
-.form-container {
+.formContainer {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -10,7 +10,7 @@
   font-family: 'Playfair Display', serif;
 }
 
-.form-group {
+.formGroup {
   margin-bottom: 20px;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .addIngredients button {
-  padding: 12px 15px;
-  font-size: 1.1em;
+  padding: 6px 10px;
+  font-size: 0.8em;
   border: none;
   border-radius: 8px;
   background-color: #b63b35;
@@ -55,7 +55,12 @@
   transform: scale(1.02);
 }
 
-.form-container label {
+.buttonContainer {
+  display: flex;
+  gap: 5px; 
+}
+
+.formContainer label {
   display: block;
   font-weight: bold;
   font-size: 1.1em;
@@ -64,9 +69,9 @@
   font-family: 'Lobster', cursive;
 }
 
-.form-container textarea,
-.form-container input[type="text"],
-.form-container select {
+.formContainer textarea,
+.formContainer input[type="text"],
+.formContainer select {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid #b5b5b5;
@@ -78,19 +83,19 @@
   transition: border-color 0.3s;
 }
 
-.form-container textarea:focus,
-.form-container input[type="text"]:focus,
-.form-container select:focus {
+.formContainer textarea:focus,
+.formContainer input[type="text"]:focus,
+.formContainer select:focus {
   border-color: #b63b35;
   outline: none;
 }
 
-.form-container textarea {
+.formContainer textarea {
   resize: vertical;
   min-height: 50px;
 }
 
-.form-container button {
+.formContainer button {
   display: inline-block;
   padding: 10.5px 25px;
   font-size: 1.1em;
@@ -103,37 +108,35 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.form-container button:hover {
+.formContainer button:hover {
   background-color: #8b3631;
   transform: scale(1.02);
 }
 
-.error-message {
+.errorMessage {
   color: #b63b35;
   font-size: 0.9em;
   margin-top: 8px;
 }
 
-.ingredient-list {
+.ingredientList {
+  display: grid; 
+  grid-template-columns: 1fr auto; 
+  gap: 10px; 
+  align-items: center; 
   list-style-type: disc;
   padding-left: 20px;
   margin-top: 10px;
   color: #333333;
 }
 
-.recipe-data {
-  margin-top: 25px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.ingredientItem {
+  display: contents; 
 }
 
-.recipe-data h2 {
-  margin-top: 0;
-  color: #b63b35;
-  font-family: 'Lobster', cursive;
-  font-size: 1.4em;
+.ingredient{
+  margin-right: 10px;
+  font-size: 1.2em;
 }
 
 .backLink {
