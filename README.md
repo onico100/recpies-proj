@@ -72,4 +72,4 @@ This is a Next.js application for managing recipes, where users can add, view, d
 
 ## App preview
 
-- Live Demo: View the app running here: https://recipes-proj.vercel.app/
+- Live Demo: View the app running here:[ https://recipes-proj.vercel.app/](https://recpies-proj.vercel.app/)
